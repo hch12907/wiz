@@ -1,0 +1,6 @@
+[package]
+name = "wiz"
+version = "0.1.0"
+authors = ["hch12907 <haochengho12907@gmail.com>"]
+
+[dependencies]
