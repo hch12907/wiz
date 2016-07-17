@@ -5,3 +5,5 @@ authors = ["hch12907 <haochengho12907@gmail.com>"]
 
 [dependencies]
 clap = "2.6.0"
+flate2 = "0.2.14" 
+tar = "0.4.6"
