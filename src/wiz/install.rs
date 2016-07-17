@@ -19,9 +19,9 @@ fn extract_gz(input: &Path, output: &Path) {
     let buffer = BufReader::new(file);
     let archive = GzDecoder::new(buffer).unwrap();
 
-    let mut buffer = File::create(output).unwrap();
+    let mut target = File::create(output).unwrap();
     for byte in archive.bytes() {
-        buffer.write(&[byte.unwrap()]);
+        target.write(&[byte.unwrap()]);
     }
 }
 
