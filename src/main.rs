@@ -1,5 +1,8 @@
 #[macro_use]
 extern crate clap;
+
+mod wiz { mod extraction; }
+
 use clap::{App, Arg};
 
 arg_enum! {
