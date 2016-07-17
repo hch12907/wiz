@@ -21,6 +21,7 @@ fn extract_gz(input: &Path, output: &Path) {
 
     let mut buffer = File::create(output).unwrap();
     for byte in archive.bytes() {
-        buffer.write(byte.unwrap());
+        buffer.write(&[byte.unwrap()]);
     }
 }
+
