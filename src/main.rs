@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate clap;
 
-mod wiz { mod extraction; }
+mod wiz;
 
 use clap::{App, Arg};
 
