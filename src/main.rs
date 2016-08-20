@@ -2,6 +2,7 @@
 extern crate clap;
 
 mod wiz;
+mod constants;
 
 use clap::{App, Arg};
 
@@ -14,6 +15,12 @@ arg_enum! {
 }
 
 fn main() {
+
+/*
+ * TODO: Eliminate hardcoded strings, instead
+ * putting them in constants.rs or other places. 
+ */
+
     let arg_matches = App::new("wiz")
         .version("0.1.0")
                           
