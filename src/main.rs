@@ -21,8 +21,8 @@ fn main() {
  * putting them in constants.rs or other places. 
  */
 
-    let arg_matches = App::new("wiz")
-        .version("0.1.0")
+    let arg_matches = App::new(NAME)
+        .version(VERSION)
                           
         .arg(Arg::with_name("method")
              .help("Specify what to do with the specified package")
