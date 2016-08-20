@@ -1,3 +1,3 @@
-mod install;
+mod installation;
 mod verification;
 mod extraction; 
