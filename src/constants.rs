@@ -1,3 +1,3 @@
-const PACKAGE_LIST: &str = "package.list";
-const NAME: &str = "wiz";
-const VERSION: &str = "0.0.1";
+pub const PACKAGE_LIST: &'static str = "package.list";
+pub const NAME: &'static str = "wiz";
+pub const VERSION: &'static str = "0.0.1";
