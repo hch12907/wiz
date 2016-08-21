@@ -9,15 +9,28 @@ use self::tar::Archive;
 use self::flate2::read::GzDecoder;
 
 fn extract_tar(input: &Path, output: &Path) {
-    let file = File::open(input).unwrap();
+    let file = match File::open(input)
+    {
+        Ok(x) => x,
+        Err(why) => panic!("An error occured. \n{}", why),
+    };
+
     let mut archive = Archive::new(file);
     archive.unpack(output).unwrap();
 }
 
 fn extract_gz(input: &Path, output: &Path) {
-    let file = File::open(input).unwrap();
-    let buffer = BufReader::new(file);
-    let archive = GzDecoder::new(buffer).unwrap();
+    let file = match File::open(input)
+    {
+        Ok(x) => x,
+        Err(why) => panic!("An error occured. \n{}", why),
+    };
+
+    let archive = match GzDecoder::new(BufReader::new(file))
+    {
+        Ok(x) => x,
+        Err(why) => panic!("An error occured. \n{}", why),
+    };
 
     let mut target = File::create(output).unwrap();
     for byte in archive.bytes() {
