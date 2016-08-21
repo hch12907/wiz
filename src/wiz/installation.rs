@@ -1,4 +1,5 @@
 use constants;
+use wiz::verification;
 
 use std::error::Error;
 use std::fs::File;
@@ -45,14 +46,10 @@ fn retrieve_package(url: &str) // -> Path
     */
 }
 
-fn verify_package(package: &File, provided: &str) -> bool
+fn verify_package(package: &File, provided: u32) -> bool
 {
-    /*
-      This function verifies the package(CRC32 IEEE)
-      retrieved by retrieve_package, and returns boolean indicating 
-      that the file is not corrupted.
-    */
-    true
+    let checksum = verification::get_crc32(package);
+    checksum == provided 
 }
 
 fn copy_package()
