@@ -8,7 +8,7 @@ use std::path::Path;
 
 use self::crc::{crc32, Hasher32};
 
-fn verify(path: &Path)
+fn verify(path: &Path) -> u32
 {
     let mut buffer = File::open(path).unwrap();
     let mut digest = crc32::Digest::new(crc32::IEEE);
@@ -16,6 +16,8 @@ fn verify(path: &Path)
     for line in buffer.bytes() {
             digest.write(&[line.unwrap()]);
     }
+
+    digest.sum32()
 }
 
 

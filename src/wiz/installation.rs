@@ -10,7 +10,7 @@ use std::path::Path;
 fn find_package(name: &str) -> String
 {
     let mut list = match File::open(constants::PACKAGE_LIST) {
-        Err(why) => panic!("An error occured:\n{}", why),
+        Err(why) => panic!("An error occured. \n{}", why),
         Ok(file) => file,
     };
 
@@ -45,13 +45,14 @@ fn retrieve_package(url: &str) // -> Path
     */
 }
 
-fn verify_package(package: &File, provided: &str)
+fn verify_package(package: &File, provided: &str) -> bool
 {
     /*
       This function verifies the package(CRC32 IEEE)
       retrieved by retrieve_package, and returns boolean indicating 
       that the file is not corrupted.
     */
+    true
 }
 
 fn copy_package()
