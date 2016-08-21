@@ -8,12 +8,11 @@ use std::path::Path;
 
 use self::crc::{crc32, Hasher32};
 
-fn verify(path: &Path) -> u32
+pub fn get_crc32(file: &File) -> u32
 {
-    let mut buffer = File::open(path).unwrap();
     let mut digest = crc32::Digest::new(crc32::IEEE);
 
-    for line in buffer.bytes() {
+    for line in file.bytes() {
             digest.write(&[line.unwrap()]);
     }
 
