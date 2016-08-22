@@ -1,14 +1,15 @@
-use constants;
-use wiz::verification;
-
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 use std::path::Path;
 
+use constants;
+use wiz::verification;
+use wiz::extraction;
+
 
 // TODO: Eliminate hardcoded strings and ints
-fn find_package(name: &str) -> String
+fn find_package(name: &str) -> Result<String, &str>
 {
     let mut list = match File::open(constants::PACKAGE_LIST) {
         Err(why) => panic!("An error occured. \n{}", why),
@@ -18,24 +19,27 @@ fn find_package(name: &str) -> String
     let mut reader = BufReader::new(list);
     let mut buffer = String::new();
 
+    //This is eventually going to be replaced with JSON files or other stuff
     for line in reader.lines() {
         let x = line.unwrap();
         let tokens: Vec<&str> = x.split(' ').collect();
 
-        if tokens.len() < 2 {
-            buffer.push_str("NOT FOUND");
+        if(tokens.len() < 2) { 
+            continue; 
         }
-        else {   
-            if tokens[0] == name {
-                buffer.push_str(tokens[1]);
-            } 
-            else {
-                buffer.push_str("NOT FOUND"); // this is only temporary!
-            }
+
+        if(tokens[0] == name) {
+            buffer.push_str(tokens[1]);
+            break;
         }
     }
 
-    buffer
+    if(buffer.len() > 0) {
+        Ok(buffer)
+    }
+    else {
+        Err("Package not found")
+    }
 }
 
 fn retrieve_package(url: &str) // -> Path
@@ -46,27 +50,26 @@ fn retrieve_package(url: &str) // -> Path
     */
 }
 
-fn verify_package(package: &File, provided: u32) -> bool
+fn verify_package(package: &File, provided_checksum: u32) -> bool
 {
     let checksum = verification::get_crc32(package);
-    checksum == provided 
+    checksum == provided_checksum
 }
 
-fn copy_package()
+fn copy_package(package: &File, destination: &Path)
 {
-    /*
-      This function retrieves the package, and put them
-      to specified locations accordingly.
-    */
+    
 }
 
-fn process_package()
+fn setup_package()
 {
     /*
       This function finalises the installation of
       the package, such as setting PATH and such.
     */
 }
+
+
 
 fn install()
 {
