@@ -12,8 +12,8 @@ arg_enum! {
 }
 
 fn main() {
-    let arg_matches = App::new(constants::NAME)
-        .version(constants::VERSION)
+    let arg_matches = App::new("wiz")
+        .version("0.0.1")
                           
         .arg(Arg::with_name("method")
              .help("Specifies what to do with the specified package")
