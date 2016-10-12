@@ -14,7 +14,7 @@ macro_rules! custom_try {
     });
 }
 
-fn download_package(url: &str) {
+fn download_package(url: &str) -> Vec<u8> {
     let client = Client::new();
     let response = custom_try!(client.get(url).send());
     let content = Vec::new(); 
