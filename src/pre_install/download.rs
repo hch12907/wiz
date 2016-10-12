@@ -1,7 +1,8 @@
 /*
     TODO:
-    Write code for downloading the package, into a
-    specific path.
+    1. Copy downloaded files to other places.
+    2. Verify the downloaded package.
+    3. Make it support repos someday.
 */
 crate hyper;
 use self::hyper::client;
