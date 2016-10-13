@@ -10,11 +10,24 @@ macro_rules! custom_try {
     });
 }
 
-fn find_package(name: &str, list:&Path) -> Result<String, &str>
-{
-    let mut list = custom_try!(match File::open(list));
-    let mut reader = BufReader::new(list);
-    let mut buffer = String::new();
+#[derive(Serialize, Deserialize)]
+struct Package {
+    name: String,
+    version: String,
+    crc32: String,
+    dependencies: Vec<Package>
+}
 
-    //TODO: Use JSON.
+#[derive(Serialize, Deserialize)]
+struct PackageList {
+    packages: Vec<Package>,
+    last_updated: Date
+}
+
+fn find_package(name: &str, path:&Path) -> Result<String, &str>
+{
+    let mut list = custom_try!(match File::open(path));
+    let mut reader = BufReader::new(list);
+    let mut buffer = reader.read_to_string();
+    let packages: PackageList = custom_try!(serde_json::from_str(buffer));
 }
