@@ -1,6 +1,6 @@
 /*
     TODO:
-    1. Copy downloaded files to other places.
+    1. Copy downloaded files to other places. (Completed)
     2. Verify the downloaded package.
     3. Make it support repos someday.
 */
@@ -14,10 +14,12 @@ macro_rules! custom_try {
     });
 }
 
-fn download_package(url: &str) -> Vec<u8> {
+fn download_package(url: &str, output: &Path) {
     let client = Client::new();
     let response = custom_try!(client.get(url).send());
-    let content = Vec::new(); 
-    custom_try!(response.read_to_end(&mut content));
-    return content;
+    let mut target = custom_try!(File::create(output));
+
+    for byte in response.bytes() {
+        target.write(&[byte.unwrap()]);
+    }
 }
