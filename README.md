@@ -15,11 +15,7 @@ Installer: <snip>
 Source: <snip> -->
 
 ### Building Wiz
-Just run
-```
-cargo build
-```
-and you are golden!
+Just run `cargo build` and you are golden.
 
 ## Contributors
 [hch12907](https://github.com/hch12907)
