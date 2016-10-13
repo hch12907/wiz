@@ -15,6 +15,7 @@ struct Package {
     name: String,
     version: String,
     crc32: String,
+    url: String,
     dependencies: Vec<Package>
 }
 
@@ -24,10 +25,20 @@ struct PackageList {
     last_updated: Date
 }
 
-fn find_package(name: &str, path:&Path) -> Result<String, &str>
+fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str>
 {
     let mut list = custom_try!(match File::open(path));
     let mut reader = BufReader::new(list);
     let mut buffer = reader.read_to_string();
-    let packages: PackageList = custom_try!(serde_json::from_str(buffer));
+    let package_list: PackageList = custom_try!(serde_json::from_str(buffer));
+
+    let filtered = package_list.packages.into_iter()
+                    .filter(|x| !x.name.contains(name))
+                    .collect::<Vec<_>>();
+    
+    match filtered.len() {
+        0 => Err("Package not found"),
+        _ => Ok(filtered)
+    }
 }
+
