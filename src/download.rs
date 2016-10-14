@@ -14,7 +14,7 @@ macro_rules! custom_try {
     });
 }
 
-fn download_package(url: &str, output: &Path) {
+pub fn download_package(url: &str, output: &Path) {
     let client = Client::new();
     let response = custom_try!(client.get(url).send());
     let mut target = custom_try!(File::create(output));

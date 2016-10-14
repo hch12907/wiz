@@ -25,7 +25,7 @@ struct PackageList {
     last_updated: Date
 }
 
-fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str>
+pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str>
 {
     let mut list = custom_try!(match File::open(path));
     let mut reader = BufReader::new(list);

@@ -15,7 +15,7 @@ macro_rules! custom_try {
     });
 }
 
-fn extract_tar(input: &Path, output: &Path) {
+pub fn extract_tar(input: &Path, output: &Path) {
     let file = custom_try!(File::open(input));
     let mut archive = Archive::new(file);
     
@@ -24,7 +24,7 @@ fn extract_tar(input: &Path, output: &Path) {
     };
 }
 
-fn extract_gz(input: &Path, output: &Path) {
+pub fn extract_gz(input: &Path, output: &Path) {
     let file = custom_try!(File::open(input));
     let archive = custom_try!(GzDecoder::new(BufReader::new(file)));
     let mut target = custom_try!(File::create(output));
