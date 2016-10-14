@@ -25,6 +25,10 @@ struct PackageList {
     last_updated: Date
 }
 
+pub fn update_package(url: &str, path: &Path) -> bool {
+    download::download_file(url + "packages.json", path);
+}
+
 pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str> {
     let mut list = custom_try!(File::open(path));
     let mut reader = BufReader::new(list);
