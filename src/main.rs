@@ -1,9 +1,6 @@
 #[macro_use]
 extern crate clap;
 
-mod wiz;
-mod constants;
-
 use clap::{App, Arg};
 
 arg_enum! {
@@ -15,23 +12,17 @@ arg_enum! {
 }
 
 fn main() {
-
-/*
- * TODO: Eliminate hardcoded strings, instead
- * putting them in constants.rs or other places. 
- */
-
-    let arg_matches = App::new(constants::NAME)
-        .version(constants::VERSION)
+    let arg_matches = App::new("wiz")
+        .version("0.0.1")
                           
         .arg(Arg::with_name("method")
-             .help("Specify what to do with the specified package")
+             .help("Specifies what to do with the specified package")
              .index(1)
              .possible_values(&Method::variants())
              .required(true))
                                         
         .arg(Arg::with_name("package")
-             .help("Specify package")
+             .help("Specifies package")
              .index(2)
              .required(true))
         
