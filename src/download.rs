@@ -5,6 +5,7 @@
     3. Make it support repos someday.
 */
 extern crate hyper;
+
 use self::hyper::Client;
 use std::fs::File;
 use std::io::{ Read, Write };
