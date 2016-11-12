@@ -1,3 +1,5 @@
+extern crate serde_json;
+
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufReader, BufRead};
@@ -6,7 +8,7 @@ use std::path::Path;
 macro_rules! custom_try {
     ($x:expr) => (match $x {
         Ok(x) => x,
-        Err(why) => panic!("An error occured during package finding.", why),
+        Err(why) => panic!("An error occured during package finding. {}", why),
     });
 }
 
@@ -25,9 +27,10 @@ struct PackageList {
     last_updated: Date
 }
 
-pub fn update_package(url: &str, path: &Path) -> bool {
+
+/*pub fn update_package(url: &str, path: &Path) -> bool {
     download::download_file(url + "packages.json", path);
-}
+}*/
 
 pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str> {
     let mut list = custom_try!(File::open(path));

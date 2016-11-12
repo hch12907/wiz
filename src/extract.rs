@@ -11,7 +11,7 @@ use self::flate2::read::GzDecoder;
 macro_rules! custom_try {
     ($x:expr) => (match $x {
         Ok(x) => x,
-        Err(why) => panic!("An error occured during extraction.", why),
+        Err(why) => panic!("An error occured during extraction. {}", why),
     });
 }
 

@@ -4,13 +4,13 @@
     2. Verify the downloaded package.
     3. Make it support repos someday.
 */
-crate hyper;
+extern crate hyper;
 use self::hyper::client;
 
 macro_rules! custom_try {
     ($x:expr) => (match $x {
         Ok(x) => x,
-        Err(why) => panic!("An error occured during package downloading.", why),
+        Err(why) => panic!("An error occured during package downloading. {}", why),
     });
 }
 
