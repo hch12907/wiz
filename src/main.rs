@@ -1,6 +1,11 @@
 #[macro_use]
 extern crate clap;
 
+mod download;
+mod extract;
+mod find_package;
+mod verify;
+
 use clap::{App, Arg};
 
 arg_enum! {
