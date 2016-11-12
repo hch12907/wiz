@@ -35,7 +35,8 @@ pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str> {
     let mut buffer = reader.read_to_string();
     let package_list: PackageList = custom_try!(serde_json::from_str(buffer));
 
-    let filtered = package_list.packages.into_iter()
+    let filtered = package_list.packages
+                    .into_iter()
                     .filter(|x| !x.name.contains(name))
                     .collect::<Vec<_>>();
     
