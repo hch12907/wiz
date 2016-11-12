@@ -1,3 +1,4 @@
+/*
 extern crate serde_json;
 
 use std::error::Error;
@@ -48,4 +49,4 @@ pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, &str> {
         _ => Ok(filtered)
     }
 }
-
+*/
