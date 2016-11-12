@@ -19,9 +19,7 @@ pub fn extract_tar(input: &Path, output: &Path) {
     let file = custom_try!(File::open(input));
     let mut archive = Archive::new(file);
     
-    match archive.unpack(output) {
-        Err(why) => panic!("An error occured during extraction. \n{}", why),
-    };
+    archive.unpack(output).ok();
 }
 
 pub fn extract_gz(input: &Path, output: &Path) {
