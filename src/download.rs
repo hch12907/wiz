@@ -5,7 +5,10 @@
     3. Make it support repos someday.
 */
 extern crate hyper;
-use self::hyper::client;
+use self::hyper::Client;
+use std::fs::File;
+use std::io::{ Read, Write };
+use std::path::Path;
 
 macro_rules! custom_try {
     ($x:expr) => (match $x {
