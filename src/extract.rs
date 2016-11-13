@@ -31,4 +31,3 @@ pub fn extract_gz(input: &Path, output: &Path) {
         target.write(&[byte.unwrap()]);
     }
 }
-
