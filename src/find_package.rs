@@ -32,8 +32,8 @@ pub struct PackageList {
 }
 
 
-pub fn update_package(url: &str, path: &Path) -> bool {
-    download::download_file(url, path);
+pub fn update_package(url: &str, path: &Path) -> Result<Vec<String>, String> {
+    let download_complete = download::download_file(url, path);
 
     //TODO: Detect whether package is updated successfully.
     return true;

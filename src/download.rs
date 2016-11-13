@@ -14,14 +14,14 @@ use std::path::Path;
 macro_rules! custom_try {
     ($x:expr) => (match $x {
         Ok(x) => x,
-        Err(why) => panic!("An error occured during package downloading. {}", why),
+        Err(why) => return Err(format!("An error occured during package downloading. {}", why)),
     });
 }
 
-pub fn download_file(url: &str, output: &Path) {
+pub fn download_file(url: &str, output: &Path) -> Result<(), String> {
     let response = custom_try!(reqwest::get(url));
     let mut target = custom_try!(File::create(output));
-
+    
     for byte in response.bytes() {
         target.write(&[byte.unwrap()]);
     }
