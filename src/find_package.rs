@@ -12,7 +12,7 @@ use download;
 macro_rules! custom_try {
     ($x:expr) => (match $x {
         Ok(x) => x,
-        Err(why) => panic!("An error occured during package finding. {}", why),
+        Err(why) => return Err(format!("An error occured during package finding. {}", why)),
     });
 }
 
@@ -32,11 +32,11 @@ pub struct PackageList {
 }
 
 
-pub fn update_package(url: &str, path: &Path) -> Result<Vec<String>, String> {
+pub fn update_package_list(url: &str, path: &Path) -> Result<bool, String> {
     let download_complete = download::download_file(url, path);
-
-    //TODO: Detect whether package is updated successfully.
-    return true;
+    if(download_complete.is_ok()) {
+        //TODO: Return true when the package list is updated, false if not
+    }
 }
 
 pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, String> {
