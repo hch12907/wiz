@@ -35,7 +35,7 @@ pub struct PackageList {
 
 
 pub fn update_package_list(url: &str, path: &Path) -> Result<bool, String> {
-    if (path.extension().is_some() && path.extension().unwrap() != ".json") ||
+    if (path.extension().is_some() && path.extension().unwrap_or("") != ".json") ||
        (path.extension().is_none())
     {
         return Err(String::from(
