@@ -77,7 +77,7 @@ pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, String> {
                     .collect::<Vec<_>>();
     
     match filtered.len() {
-        0 => Err(String::from_str("Package not found")),
+        0 => Err(String::from("Package not found")),
         _ => Ok(filtered)
     }
 }
