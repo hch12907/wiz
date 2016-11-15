@@ -20,6 +20,8 @@ pub fn extract_tar(input: &Path, output: &Path) -> Result<(), String> {
     let mut archive = Archive::new(file);
     
     archive.unpack(output).ok();
+
+    return Ok(())
 }
 
 pub fn extract_gz(input: &Path, output: &Path) -> Result<(), String> {
@@ -30,4 +32,6 @@ pub fn extract_gz(input: &Path, output: &Path) -> Result<(), String> {
     for byte in archive.bytes() {
         target.write(&[byte.unwrap()]);
     }
+
+    return Ok(())
 }

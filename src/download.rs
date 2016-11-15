@@ -25,4 +25,6 @@ pub fn download_file(url: &str, output: &Path) -> Result<(), String> {
     for byte in response.bytes() {
         target.write(&[byte.unwrap()]);
     }
+    
+    return Ok(())
 }
