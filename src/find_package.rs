@@ -2,12 +2,14 @@
 use rustc_serialize::json;
 
 use std::error::Error;
+use std::fs;
 use std::fs::File;
 use std::io::{ BufReader, BufRead, Read };
-use std::path::Path;
+use std::path::{ Path, PathBuf };
 use std::str::FromStr;
 
 use download;
+use verify;
 
 macro_rules! custom_try {
     ($x:expr) => (match $x {
@@ -33,9 +35,31 @@ pub struct PackageList {
 
 
 pub fn update_package_list(url: &str, path: &Path) -> Result<bool, String> {
-    let download_complete = download::download_file(url, path);
-    if(download_complete.is_ok()) {
-        //TODO: Return true when the package list is updated, false if not
+    if (path.extension().is_some() && path.extension().unwrap() != ".json") ||
+       (path.extension().is_none())
+    {
+        return Err(String::from(
+            format!("Extension of package list is not .json: {}", path.to_str().unwrap_or("Invalid File"))
+        ));
+    }
+    
+    let mut path_temp = PathBuf::new();
+    path_temp.push(path); 
+    path_temp.set_extension("json.tmp");
+
+    if download::download_file(url, path_temp.as_path()).is_err() {
+        return Err(String::from("Error occured while downloading package list"))
+    }
+
+    if verify::verify_file_crc32(&custom_try!(File::open(&path_temp))) == 
+       verify::verify_file_crc32(&custom_try!(File::open(&path)))
+    {
+        fs::remove_file(path_temp);
+        return Ok(false)
+    } else {
+        fs::remove_file(path);
+        fs::rename(path_temp, path);
+        return Ok(true)
     }
 }
 
