@@ -81,3 +81,11 @@ pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, String> {
         _ => Ok(filtered)
     }
 }
+
+pub fn download_and_find(name: &str, url:&str, path:&Path) -> Result<Vec<Package>, String>{
+    if update_package_list(url, path).is_ok() {
+        return find_package(name, path)
+    } else {
+        return Err(String::from("Error occured while downloading package list"))
+    }
+}
