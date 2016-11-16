@@ -2,6 +2,7 @@
 use rustc_serialize::json;
 
 use std::error::Error;
+use std::ffi::OsStr;
 use std::fs;
 use std::fs::File;
 use std::io::{ BufReader, BufRead, Read };
@@ -35,7 +36,8 @@ pub struct PackageList {
 
 
 pub fn update_package_list(url: &str, path: &Path) -> Result<bool, String> {
-    if (path.extension().is_some() && path.extension().unwrap_or("") != ".json") ||
+    if (path.extension().is_some() && 
+        path.extension().unwrap_or(OsStr::new("")) != ".json") ||
        (path.extension().is_none())
     {
         return Err(String::from(
