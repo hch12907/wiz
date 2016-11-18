@@ -21,11 +21,11 @@ macro_rules! custom_try {
 
 #[derive(RustcDecodable, RustcEncodable)]
 pub struct Package {
-    name: String,
-    version: String,
-    crc32: String,
-    url: String,
-    dependencies: Vec<Package>
+    pub name: String,
+    pub version: String,
+    pub crc32: String,
+    pub url: String,
+    pub dependencies: Vec<Package>
 }
 
 #[derive(RustcDecodable, RustcEncodable)]
