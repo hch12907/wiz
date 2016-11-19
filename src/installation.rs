@@ -1,3 +1,4 @@
+use std::fs;
 use std::fs::File;
 use std::io;
 use std::path::{ Path, PathBuf };
@@ -15,6 +16,10 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 
     if !download_path.exists() {
         download::download_file(&package.url, download_path.as_path())?;
+        if verify::verify_file_crc32(download_path.as_path()) != &package.crc32 {
+            fs::remove_file(download_path.as_path());
+            return Err(String::from("The downloaded file is corrupted.\nwiz will delete the file now."))
+        }
     }
 
     let mut tar_path = PathBuf::new();
