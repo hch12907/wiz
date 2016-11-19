@@ -30,6 +30,8 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 
     if !install_path.exists() {
         try!(extract::extract_tar(tar_path.as_path(), install_path.as_path()));
+    } else {
+        return Ok(false)
     }
 
     return Ok(true)
