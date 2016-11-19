@@ -1,4 +1,5 @@
 use std::fs::File;
+use std::io;
 use std::path::{ Path, PathBuf };
 
 use download;
@@ -38,7 +39,7 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 }
 
 pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
-    let found_packages = try!(find_package::find_package(name, path));
+    let found_packages = find_package::find_package(name, path)?;
     
     if !found_packages.is_empty() && found_packages.len() > 1 {
         for (i, package) in found_packages.iter().enumerate() {
@@ -51,7 +52,17 @@ pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
             }
         }
 
-        //TODO: Accept user input and install user-chosen package.
+        let mut input = String::new();
+        io::stdin().read_line(&mut input)?;
+
+        let input: u16 = input.trim().parse().ok().expect("");
+        
+        if input > found_packages.len() as u16 {
+            return Err(String::from("Invalid input"))
+        } else {
+            return _install_package(&found_packages[input as usize], path)
+        }        
+
         return _install_package(&found_packages[0], path)
     } else {
         return _install_package(&found_packages[0], path)
