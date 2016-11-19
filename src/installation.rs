@@ -14,7 +14,7 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
         download_path.push(format!("download/{}", package.name));
 
     if !download_path.exists() {
-        try!(download::download_file(&package.url, download_path.as_path()));
+        download::download_file(&package.url, download_path.as_path())?;
     }
 
     let mut tar_path = PathBuf::new();
@@ -22,7 +22,7 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
         tar_path.push(format!("download/{}.tar", package.name));
     
     if !tar_path.exists() {
-        try!(extract::extract_gz(download_path.as_path(), tar_path.as_path()));
+        extract::extract_gz(download_path.as_path(), tar_path.as_path())?;
     }
 
     let mut install_path = PathBuf::new();
@@ -30,7 +30,7 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
         tar_path.push(format!("install/{}", package.name));
 
     if !install_path.exists() {
-        try!(extract::extract_tar(tar_path.as_path(), install_path.as_path()));
+        extract::extract_tar(tar_path.as_path(), install_path.as_path())?;
     } else {
         return Ok(false)
     }
@@ -55,7 +55,7 @@ pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
         let mut input = String::new();
         io::stdin().read_line(&mut input)?;
 
-        let input: u16 = input.trim().parse().ok().expect("");
+        let input: u16 = input.trim().parse()?;
         
         if input > found_packages.len() as u16 {
             return Err(String::from("Invalid input"))
