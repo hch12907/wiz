@@ -1,5 +1,5 @@
 # Wiz
-https://travis-ci.org/hch12907/wiz.svg?branch=master
+[![Build Status](https://travis-ci.org/hch12907/wiz.svg?branch=master)](https://travis-ci.org/hch12907/wiz)
 
 > Wiz is a package installer/manager and launcher for Windows, written in Pure Rust (no binding and such).
 
