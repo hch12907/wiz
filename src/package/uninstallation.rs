@@ -11,7 +11,10 @@ fn uninstall(name: &str, path: &Path) -> Result<bool, String> {
             installation_path.push(format!("install/{}", package.name));
 
     if installation_path.exists() {
-        fs::remove_dir_all(&path)?;
+        match fs::remove_dir_all(&path) {
+            Ok(x) => x,
+            Err(why) => return Err(format!("{}", why))
+        }
         return Ok(true)
     } else {
         return Ok(false)
@@ -25,12 +28,19 @@ fn full_uninstall(name: &str, path: &Path) -> Result<bool, String> {
     let mut download_path = PathBuf::new();
             download_path.push(path);
             download_path.push(format!("download/{}", package.name));
-    fs::remove_file(download_path)?;
+    match fs::remove_file(download_path) {
+        Ok(x) => x,
+        Err(why) => return Err(format!("{}", why))
+    };
 
     let mut tar_path = PathBuf::new();
             tar_path.push(path);
             tar_path.push(format!("download/{}.tar", package.name));
-    fs::remove_file(tar_path)?;
+    match fs::remove_file(tar_path) {
+        Ok(x) => x,
+        Err(why) => return Err(format!("{}", why))
+    };
+
 
     return Ok(true)
 }

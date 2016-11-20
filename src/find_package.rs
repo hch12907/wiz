@@ -101,16 +101,15 @@ pub fn select_package(name: &str, path: &Path) -> Result<Package, String>{
         }
 
         let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
-
-        let input: u16 = input.trim().parse()?;
+        custom_try!(io::stdin().read_line(&mut input));
+        let input: u16 = custom_try!(input.trim().parse::<u16>());
         
         if input > found_packages.len() as u16 {
             return Err(String::from("Invalid input"))
         } else {
-            return Ok(found_packages[input as usize])
+            return Ok(found_packages[input as usize].clone())
         }
     } else {
-        return Ok(found_packages[0])
+        return Ok(found_packages[0].clone())
     }
 }
