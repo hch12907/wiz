@@ -4,7 +4,7 @@ use std::path::{ Path, PathBuf };
 use find_package;
 
 fn uninstall(name: &str, path: &Path) -> Result<bool, String> {
-    let package = find_package::select_package(name, path);
+    let package = find_package::select_package(name, path)?;
     
     let mut installation_path = PathBuf::new();
             installation_path.push(path);
@@ -19,12 +19,13 @@ fn uninstall(name: &str, path: &Path) -> Result<bool, String> {
 }
 
 fn full_uninstall(name: &str, path: &Path) -> Result<bool, String> {
+    let package = find_package::select_package(name, path)?;
     uninstall(name, path)?;
 
     let mut download_path = PathBuf::new();
             download_path.push(path);
             download_path.push(format!("download/{}", package.name));
-    fs::remove_file(tar_path)?;
+    fs::remove_file(download_path)?;
 
     let mut tar_path = PathBuf::new();
             tar_path.push(path);

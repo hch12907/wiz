@@ -5,7 +5,7 @@ use std::error::Error;
 use std::ffi::OsStr;
 use std::fs;
 use std::fs::File;
-use std::io::{ BufReader, BufRead, Read };
+use std::io::{ self, BufReader, BufRead, Read };
 use std::path::{ Path, PathBuf };
 use std::str::FromStr;
 
@@ -23,7 +23,7 @@ macro_rules! custom_try {
 pub struct Package {
     pub name: String,
     pub version: String,
-    pub crc32: String,
+    pub crc32: u32,
     pub url: String,
     pub dependencies: Vec<Package>
 }
@@ -108,9 +108,9 @@ pub fn select_package(name: &str, path: &Path) -> Result<Package, String>{
         if input > found_packages.len() as u16 {
             return Err(String::from("Invalid input"))
         } else {
-            return found_packages[input];
+            return Ok(found_packages[input as usize])
         }
     } else {
-        return found_packages[0];
+        return Ok(found_packages[0])
     }
 }

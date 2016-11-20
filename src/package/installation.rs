@@ -16,7 +16,7 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 
     if !download_path.exists() {
         download::download_file(&package.url, download_path.as_path())?;
-        if verify::verify_file_crc32(download_path.as_path()) != &package.crc32 {
+        if verify::verify_file_crc32(&File::open(download_path.as_path())?) != package.crc32 {
             fs::remove_file(download_path.as_path());
             return Err(String::from("The downloaded file is corrupted.\nwiz will delete the file now."))
         }
@@ -44,6 +44,6 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 }
 
 pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
-    let package = find_package::select_package(name, path);
-    _install_package(package, path)?
+    let package = find_package::select_package(name, path)?;
+    return Ok(_install_package(&package, path)?)
 }
