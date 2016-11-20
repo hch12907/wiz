@@ -46,7 +46,7 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
     let found_packages = find_package::find_package(name, path)?;
     
-    if !found_packages.is_empty() && found_packages.len() > 1 {
+    if found_packages.len() > 1 {
         for (i, package) in found_packages.iter().enumerate() {
             let mut install_path = PathBuf::new();
                 install_path.push(path);
