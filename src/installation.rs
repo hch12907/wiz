@@ -44,32 +44,6 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 }
 
 pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
-    let found_packages = find_package::find_package(name, path)?;
-    
-    if found_packages.len() > 1 {
-        for (i, package) in found_packages.iter().enumerate() {
-            let mut install_path = PathBuf::new();
-                install_path.push(path);
-                install_path.push(format!("installed/{}", package.name));
-
-            if !install_path.exists() {
-                println!("Package {}: {}", i, package.name);
-            }
-        }
-
-        let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
-
-        let input: u16 = input.trim().parse()?;
-        
-        if input > found_packages.len() as u16 {
-            return Err(String::from("Invalid input"))
-        } else {
-            return _install_package(&found_packages[input as usize], path)
-        }        
-
-        return _install_package(&found_packages[0], path)
-    } else {
-        return _install_package(&found_packages[0], path)
-    }
+    let package = find_package::select_package(name, path);
+    _install_package(package, path)?
 }
