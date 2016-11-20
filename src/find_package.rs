@@ -91,3 +91,26 @@ pub fn download_and_find(name: &str, url:&str, path:&Path) -> Result<Vec<Package
         return Err(String::from("Error occured while downloading package list"))
     }
 }
+
+pub fn select_package(name: &str, patj: &Path) -> Result<Package, String>{
+    let found_packages = find_package(name, path)?;
+
+    if found_packages.len() > 1 {
+        for (i, package) in found_packages.iter().enumerate() {
+            println!("Package {}: {}", i, package.name);
+        }
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input)?;
+
+        let input: u16 = input.trim().parse()?;
+        
+        if input > found_packages.len() as u16 {
+            return Err(String::from("Invalid input"))
+        } else {
+            return found_packages[input];
+        }
+    } else {
+        return found_packages[0];
+    }
+}
