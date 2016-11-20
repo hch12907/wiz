@@ -19,7 +19,7 @@ macro_rules! custom_try {
     });
 }
 
-#[derive(RustcDecodable, RustcEncodable)]
+#[derive(RustcDecodable, RustcEncodable, Clone)]
 pub struct Package {
     pub name: String,
     pub version: String,
