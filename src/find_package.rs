@@ -92,7 +92,7 @@ pub fn download_and_find(name: &str, url:&str, path:&Path) -> Result<Vec<Package
     }
 }
 
-pub fn select_package(name: &str, patj: &Path) -> Result<Package, String>{
+pub fn select_package(name: &str, path: &Path) -> Result<Package, String>{
     let found_packages = find_package(name, path)?;
 
     if found_packages.len() > 1 {
