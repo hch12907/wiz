@@ -5,7 +5,7 @@ extern crate rustc_serialize;
 mod download;
 mod extract;
 mod find_package;
-mod installation;
+mod package;
 mod verify;
 
 use clap::{App, Arg};
