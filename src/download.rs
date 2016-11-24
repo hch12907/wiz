@@ -5,8 +5,6 @@
     3. Make it support repos someday.
 */
 extern crate reqwest;
-
-use self::reqwest::Client;
 use std::fs::File;
 use std::io::{ Read, Write };
 use std::path::Path;

@@ -1,10 +1,9 @@
 //extern crate serde_json;
 use rustc_serialize::json;
 
-use std::error::Error;
 use std::ffi::OsStr;
 use std::fs::{ self, File };
-use std::io::{ self, BufReader, BufRead, Read };
+use std::io::{ self, BufReader, Read };
 use std::path::{ Path, PathBuf };
 
 use download;
