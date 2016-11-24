@@ -27,14 +27,24 @@ fn parse_list(path: &Path) -> Result<Vec<(String, u32)>, String> {
     }
 }
 
-fn get_version(name: &str, path: &Path) -> Option<u32> {
+pub fn get_version(name: &str, path: &Path) -> Option<u32> {
     //TODO:
     //  Gets the version of the package
-    
+    let list = match parse_list(path) {
+        Ok(x) => x,
+        Err(why) => return None
+    };
 
+    for package in list {
+        if package.0 == name {
+            return Some(package.1)
+        }
+    }
+
+    return None
 }
 
-fn put_version() -> Result<bool, String>{
+pub fn update_version() -> Result<bool, String>{
     //TODO:
     // Sets/Updates the version of the package
 }
