@@ -6,6 +6,7 @@ mod download;
 mod extract;
 mod find_package;
 mod package;
+mod package_version;
 mod verify;
 
 use clap::{App, Arg};
