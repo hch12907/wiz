@@ -3,11 +3,9 @@ use rustc_serialize::json;
 
 use std::error::Error;
 use std::ffi::OsStr;
-use std::fs;
-use std::fs::File;
+use std::fs::{ self, File };
 use std::io::{ self, BufReader, BufRead, Read };
 use std::path::{ Path, PathBuf };
-use std::str::FromStr;
 
 use download;
 use verify;
