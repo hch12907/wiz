@@ -22,7 +22,7 @@ macro_rules! custom_try {
 #[derive(RustcDecodable, RustcEncodable, Clone)]
 pub struct Package {
     pub name: String,
-    pub version: String,
+    pub version: u32,
     pub crc32: u32,
     pub url: String,
     pub dependencies: Vec<Package>
