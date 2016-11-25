@@ -33,7 +33,7 @@ pub fn get_version(name: &str, path: &Path) -> Option<u32> {
     //  Gets the version of the package
     let list = match parse_list(path) {
         Ok(x) => x,
-        Err(why) => return None
+        Err(_) => return None
     };
 
     for package in list {
