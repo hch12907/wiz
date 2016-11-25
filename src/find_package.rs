@@ -63,7 +63,7 @@ pub fn update_package_list(url: &str, path: &Path) -> Result<bool, String> {
 }
 
 pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, String> {
-    let mut list = custom_try!(File::open(path));
+    let list = custom_try!(File::open(path));
     let mut reader = BufReader::new(list);
     let mut buffer = String::new();
     
