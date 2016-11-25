@@ -63,7 +63,7 @@ pub fn update_version(name: &str, version: u32, path: &Path) -> Result<bool, Str
             Err(why) => return Err(format!("{}", why))
         };
         
-        writeln!(file, "{}={}\n", name, version);
+        writeln!(file, "{}={}\n", name, version).ok().expect("Failed to write to installed_packages");
         return Ok(true);
     } else if list.len() == 1 {
         if list[0].1 == version {
@@ -96,7 +96,7 @@ pub fn update_version(name: &str, version: u32, path: &Path) -> Result<bool, Str
                     Err(why) => return Err(format!("{}", why))
                 };
 
-                file.write_all(updated_list.as_bytes());
+                file.write_all(updated_list.as_bytes()).ok().expect("Failed to write to installed_packages");
             }
             return Ok(true);
         }
