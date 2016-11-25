@@ -21,7 +21,7 @@ pub fn download_file(url: &str, output: &Path) -> Result<(), String> {
     let mut target = custom_try!(File::create(output));
     
     for byte in response.bytes() {
-        target.write(&[byte.unwrap()]);
+        target.write(&[byte.unwrap()]).unwrap();
     }
     
     return Ok(())

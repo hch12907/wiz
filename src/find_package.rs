@@ -53,11 +53,11 @@ pub fn update_package_list(url: &str, path: &Path) -> Result<bool, String> {
     if verify::verify_file_crc32(&custom_try!(File::open(&path_temp))) == 
        verify::verify_file_crc32(&custom_try!(File::open(&path)))
     {
-        fs::remove_file(path_temp);
+        fs::remove_file(&path_temp).expect(&format!("Failed to remove file: {}", path_temp.to_str().unwrap_or("Invalid File")));
         return Ok(false)
     } else {
-        fs::remove_file(path);
-        fs::rename(path_temp, path);
+        fs::remove_file(&path).expect(&format!("Failed to remove file: {}", path.to_str().unwrap_or("Invalid File")));
+        fs::rename(&path_temp, &path).expect(&format!("Failed to rename file: {}", path.to_str().unwrap_or("Invalid File")));
         return Ok(true)
     }
 }
@@ -67,7 +67,7 @@ pub fn find_package(name: &str, path:&Path) -> Result<Vec<Package>, String> {
     let mut reader = BufReader::new(list);
     let mut buffer = String::new();
     
-    reader.read_to_string(&mut buffer);
+    reader.read_to_string(&mut buffer).unwrap();
     let package_list: PackageList = custom_try!(json::decode(&buffer));
 
     let filtered = package_list.packages

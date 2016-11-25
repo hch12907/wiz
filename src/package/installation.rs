@@ -22,7 +22,14 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
         };
 
         if verify::verify_file_crc32(&target) != package.crc32 {
-            fs::remove_file(download_path.as_path());
+            fs::remove_file(download_path.as_path())
+                .ok()
+                .expect(
+                    &format!(
+                        "Failed to remove file: {}", 
+                        download_path.as_path().to_str().unwrap_or("Invalid File")
+                    )
+                );
             return Err(String::from("The downloaded file is corrupted.\nwiz will delete the file now."))
         }
     }
