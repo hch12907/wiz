@@ -56,9 +56,9 @@ fn _install_package(package: &Package, path: &Path) -> Result<bool, String> {
 }
 
 pub fn install_package(name: &str, path: &Path) -> Result<bool, String> {
-    let package = find_package::select_package(name, path).unwrap();
-    for dep in package.dependencies {
+    let package = find_package::select_package(name, path)?;
+    for dep in &package.dependencies {
         install_package(&dep.name, path)?;
     }
-    return install_package(name, path)
+    return _install_package(&package, path)
 }
