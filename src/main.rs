@@ -10,6 +10,7 @@ mod package_version;
 mod verify;
 
 use clap::{App, Arg};
+use std::path::Path;
 
 arg_enum! {
     #[derive(Debug)]
@@ -40,7 +41,19 @@ fn main() {
     let package = arg_matches.value_of("package").unwrap_or("invalid");
 
     match method {
-        Method::Install => println!("install: {}", package),
-        Method::Remove => println!("remove: {}", package)
+        Method::Install => { 
+            println!("Installing package: {}", package);
+            match package::installation::install_package(package, Path::new("wiz")) {
+                Ok(_) => println!("Install complete"),
+                Err(why) => println!("Install failed.\nReason: {}", why)
+            }
+        },
+        Method::Remove => { 
+            println!("Uninstalling package: {}", package);
+            match package::uninstallation::uninstall(package, Path::new("wiz")) {
+                Ok(_) => println!("Uninstall complete"),
+                Err(why) => println!("Uninstall failed.\nReason: {}", why)
+            }
+        }
     }
 }
