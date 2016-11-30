@@ -1,7 +1,9 @@
 #[macro_use]
 extern crate clap;
+extern crate flate2;
 extern crate reqwest;
 extern crate rustc_serialize;
+extern crate tar;
 
 use clap::{ App, Arg, SubCommand };
 
