@@ -1,7 +1,7 @@
 use std::error::Error;
 use std::fs::File;
-use std::io::{ Read, Write };
-use std::path::Path;
+use std::io::{ BufWriter, Read, Write };
+use std::path::{ Path, PathBuf };
 
 use reqwest;
 use reqwest::header::{ ContentLength, Header, HeaderFormat};
@@ -11,8 +11,15 @@ use macros;
 
 pub fn download_file_while<F>(url: &str, output: &Path, and: F) -> Result<u64, String> 
     where F: Fn(u64, &u64) {
+        
+    // Abandoning this code, as the filename is going to be unpredictable in this case.
+    /*let mut output_to = PathBuf::new();
+            output_to.push(output);
+            output_to.push(url.split('/').last().unwrap_or("_error_"));*/ 
+
     let response = get!(reqwest::get(url), "Error occured while making a GET request. Reason:\n");
-    let mut target = get!(File::create(output), "Error occured while creating file. Reason:\n");
+    let target = get!(File::create(output), "Error occured while creating file. Reason:\n");
+    let mut target = BufWriter::new(target);
 
     let length = match response.headers().get::<ContentLength>() {
         Some(x) => **x,
