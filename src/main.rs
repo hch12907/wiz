@@ -1,8 +1,11 @@
 #[macro_use]
 extern crate clap;
+extern crate reqwest;
 extern crate rustc_serialize;
 
-use clap::{App, Arg};
+use clap::{ App, Arg, SubCommand };
+
+mod backend;
 
 fn main() {
     let possible_operation = [ "install", "remove", "update", "upgrade" ];
@@ -18,10 +21,10 @@ fn main() {
         
         .get_matches();
 
-    let method = value_t!(arg_matches.value_of("method"), Method).unwrap();
+    /*let method = value_t!(arg_matches.value_of("method"), Method).unwrap();
     let package = arg_matches.value_of("package").unwrap_or("invalid");
 
-    /*match method {
+    match method {
         Method::Install => { 
             println!("Installing package: {}", package);
             match package::installation::install_package(package, Path::new("wiz")) {
