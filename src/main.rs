@@ -5,6 +5,8 @@ extern crate rustc_serialize;
 
 use clap::{ App, Arg, SubCommand };
 
+#[macro_use]
+mod macros;
 mod backend;
 
 fn main() {

@@ -6,12 +6,8 @@ use std::path::Path;
 use reqwest;
 use reqwest::header::{ ContentLength, Header, HeaderFormat};
 
-macro_rules! get {
-    ($x:expr, $y:expr) => (match $x {
-        Ok(x) => x,
-        Err(why) => return Err($y.to_string() + why.description()),
-    });
-}
+#[macro_use]
+use macros;
 
 pub fn download_file_while<F>(url: &str, output: &Path, and: F) -> Result<u64, String> 
     where F: Fn(u64, &u64) {
