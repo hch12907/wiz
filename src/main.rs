@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate clap;
+extern crate crc;
 extern crate flate2;
 extern crate reqwest;
 extern crate rustc_serialize;
