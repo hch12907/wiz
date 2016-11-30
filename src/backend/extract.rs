@@ -4,8 +4,6 @@ use std::io::{BufReader, BufWriter, Read, Write};
 use std::path::Path;
 
 use flate2::read::GzDecoder;
-#[macro_use]
-use macros;
 use tar::Archive;
 
 pub fn extract_tar(input: &Path, output: &Path) -> Result<(), String> {

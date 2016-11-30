@@ -1,13 +1,10 @@
 use std::error::Error;
 use std::fs::File;
 use std::io::{ BufWriter, Read, Write };
-use std::path::{ Path, PathBuf };
+use std::path::Path;
 
 use reqwest;
-use reqwest::header::{ ContentLength, Header, HeaderFormat};
-
-#[macro_use]
-use macros;
+use reqwest::header::ContentLength;
 
 pub fn download_file_while<F>(url: &str, output: &Path, and: F) -> Result<u64, String> 
     where F: Fn(u64, &u64) {
