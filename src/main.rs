@@ -11,6 +11,7 @@ use clap::{ App, Arg, SubCommand };
 #[macro_use]
 mod macros;
 mod backend;
+mod package;
 
 fn main() {
     let possible_operation = [ "install", "remove", "update", "upgrade" ];
