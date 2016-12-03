@@ -6,6 +6,7 @@ macro_rules! get {
     });
 }
 
+#[macro_export]
 macro_rules! get_option {
     ($x:expr, $y:expr) => (match $x {
         Some(x) => x,
