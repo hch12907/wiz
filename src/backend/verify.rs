@@ -1,3 +1,4 @@
+use std::err::Error;
 use std::io::Read;
 use std::fs::File;
 use crc::{crc32, Hasher32};
