@@ -5,3 +5,10 @@ macro_rules! get {
         Err(why) => return Err($y.to_string() + why.description()),
     });
 }
+
+macro_rules! get_option {
+    ($x:expr, $y:expr) => (match $x {
+        Some(x) => x,
+        None => return Err($y.to_string()),
+    });
+}
