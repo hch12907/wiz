@@ -8,7 +8,7 @@ use std::path::{ Path, PathBuf };
 use backend::{ download, verify };
 use package;
 
-fn update_list<F>(url: &str, path: &Path, and: F) -> Result<bool, String>
+fn update_list<F>(url: &str, path: &Path, after_download: F) -> Result<bool, String>
     where F: Fn(u64) {
     let mut download_to = PathBuf::new();
         download_to.push(path);
@@ -18,7 +18,7 @@ fn update_list<F>(url: &str, path: &Path, and: F) -> Result<bool, String>
         let mut temporary_download_to = PathBuf::new();
             temporary_download_to.push(download_to.as_path());
             temporary_download_to.set_extension(".tmp");
-        try!(download::download_file_and(url, temporary_download_to.as_path(), and));
+        try!(download::download_file_and(url, temporary_download_to.as_path(), after_download));
         
         if try!(verify::verify_file_crc32(download_to.as_path())) == try!(verify::verify_file_crc32(temporary_download_to.as_path())) {
             get!(fs::remove_file(temporary_download_to.as_path()), "An error occured while removing unneeded package list.");
@@ -30,7 +30,7 @@ fn update_list<F>(url: &str, path: &Path, and: F) -> Result<bool, String>
         }
     // Indeed, this function is a giant clusterfuck. Apologies for code-gore.
     } else {
-        try!(download::download_file_and(url, download_to.as_path(), and));
+        try!(download::download_file_and(url, download_to.as_path(), after_download));
         Ok(true)
     }
 }
