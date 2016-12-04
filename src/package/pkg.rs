@@ -17,9 +17,9 @@ pub struct Package {
 
 #[derive(RustcDecodable, RustcEncodable)]
 pub struct PackageList {
-    packages: Vec<Package>,
-    parent_url: String, // Examples: https://www.foo.bar
-    version: u32
+    pub packages: Vec<Package>,
+    pub parent_url: String, // Examples: https://www.foo.bar
+    pub version: u32
 }
 
 impl PartialEq for Version {
