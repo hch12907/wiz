@@ -1,5 +1,7 @@
+use std::error::Error;
+
 //Following semver here
-#[derive(Clone, RustcDecodable, RustcEncodable)]
+#[derive(Clone, PartialOrd, RustcDecodable, RustcEncodable)]
 pub struct Version {
     pub major: u16,
     pub minor: u16,
@@ -20,6 +22,39 @@ pub struct PackageList {
     pub packages: Vec<Package>,
     pub parent_url: String, // Examples: https://www.foo.bar
     pub version: u32
+}
+
+impl Version {
+    fn new() -> Version {
+        Version {
+            major: 0u16, 
+            minor: 0u16, 
+            patch: 0u32
+        }
+    }
+
+    fn from(major: u16, minor: u16, patch: u32) -> Version {
+        Version {
+            major: major,
+            minor: minor,
+            patch: patch
+        }
+    }
+
+    fn from_str(input: &str) -> Result<Version, String> {
+        let versions: Vec<&str> = input.split('.').collect();
+        if versions.len() == 3 {
+            return Ok(
+                Version { 
+                    major: get!(versions[0].parse::<u16>(),"Version: Unable to parse &str into u16 (major)"), 
+                    minor: get!(versions[1].parse::<u16>(),"Version: Unable to parse &str into u16 (minor)"), 
+                    patch: get!(versions[2].parse::<u32>(),"Version: Unable to parse &str into u32 (patch)") 
+                }
+            )
+        } else {
+            return Err("Version::from_str() cannot parse provided input into Version".to_string())
+        }
+    }
 }
 
 impl PartialEq for Version {
