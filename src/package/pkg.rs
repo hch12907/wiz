@@ -25,7 +25,7 @@ pub struct PackageList {
 }
 
 impl Version {
-    fn new() -> Version {
+    pub fn new() -> Version {
         Version {
             major: 0u16, 
             minor: 0u16, 
@@ -33,7 +33,7 @@ impl Version {
         }
     }
 
-    fn from(major: u16, minor: u16, patch: u32) -> Version {
+    pub fn from(major: u16, minor: u16, patch: u32) -> Version {
         Version {
             major: major,
             minor: minor,
@@ -41,7 +41,7 @@ impl Version {
         }
     }
 
-    fn from_str(input: &str) -> Result<Version, String> {
+    pub fn from_str(input: &str) -> Result<Version, String> {
         let versions: Vec<&str> = input.split('.').collect();
         if versions.len() == 3 {
             return Ok(
