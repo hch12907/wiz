@@ -1,7 +1,7 @@
 use std::error::Error;
 
 //Following semver here
-#[derive(Clone, PartialOrd, RustcDecodable, RustcEncodable)]
+#[derive(Clone, Debug, PartialOrd, RustcDecodable, RustcEncodable)]
 pub struct Version {
     pub major: u16,
     pub minor: u16,
@@ -62,6 +62,12 @@ impl PartialEq for Version {
         self.major == other.major &&
         self.minor == other.minor &&
         self.patch == other.patch
+    }
+}
+
+impl ToString for Version {
+    fn to_string(&self) -> String {
+        String::from(self.major.to_string() + "." + &self.minor.to_string() + "." + &self.minor.to_string())
     }
 }
 
