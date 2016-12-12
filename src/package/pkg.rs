@@ -52,7 +52,7 @@ impl Version {
                 }
             )
         } else {
-            return Err("Version::from_str() cannot parse provided input into Version".to_string())
+            return Err("Version::from_str() cannot parse provided input into Version: invalid input".to_string())
         }
     }
 }
