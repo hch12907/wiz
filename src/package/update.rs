@@ -8,6 +8,9 @@ use std::path::{ Path, PathBuf };
 use backend::{ download, verify };
 use package;
 
+/// Downloads the package list from `url`, and
+/// outputs it to `path`. After the download of
+/// package list is complete, invokes `after_download`.
 fn update_list<F>(url: &str, path: &Path, after_download: F) -> Result<bool, String>
     where F: Fn(u64) {
     let mut download_to = PathBuf::new();
