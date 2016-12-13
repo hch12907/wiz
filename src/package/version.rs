@@ -7,6 +7,8 @@ use std::path::Path;
 
 use package::pkg::{ Package, Version };
 
+/// Parse the list from `path` and
+/// returns the parsed list.
 pub fn get_list(path: &Path) -> Result<Vec<(String, Version)>, String> {
     let mut buffer = String::new();
     let mut file = get!(File::open(path), "An error occured while opening file");
@@ -23,6 +25,9 @@ fn raw_update<T: Encodable>(object: &T, path: &Path) -> Result<(), String> {
     }
 }
 
+/// Updates the list. If the version in the list
+/// is older than the one in `package`, it will
+/// not be updated.  
 pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
     let mut list: Vec<(String, Version)> = try!(get_list(path));
     for x in 0..(list.len() - 1) {
