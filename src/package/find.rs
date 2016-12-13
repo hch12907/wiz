@@ -8,6 +8,7 @@ use std::path::Path;
 use package::pkg::{ Package, PackageList };
 use package::update;
 
+/// Finds the packages with `name`.
 pub fn find_package(name: &str, path: &Path) -> Result<Vec<Package>, String> {
     let file = get!(File::open(path), "An error occured while opening package list.");
     let mut list = BufReader::new(file);
@@ -27,6 +28,10 @@ pub fn find_package(name: &str, path: &Path) -> Result<Vec<Package>, String> {
     }
 }
 
+/// Finds the package according to `name`.
+/// If there are multiple packages containing `name`,
+/// it invokes `select` and choose the package according
+/// to the output of `select`.
 pub fn select_package<F>(name: &str, path: &Path, select: F) -> Result<Package, String> 
     where F: Fn(u32) -> u32 {
     let found_packages = try!(find_package(name, path));
