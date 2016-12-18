@@ -15,4 +15,7 @@ impl PathAppend for PathBuf {
     }
 }
 
+pub const DOWNLOAD_DIR: &'static str = "downloaded/";
+pub const EXTRACT_DIR: &'static str = "extracted/";
+pub const PACKAGE_INSTALL_DIR: &'static str = "installed_package/";
 pub const PACKAGE_LIST_DIR: &'static str = "package_lists/";
