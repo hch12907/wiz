@@ -1,3 +1,4 @@
-pub mod installation;
-pub mod uninstallation;
-pub mod upgrade;
+pub mod pkg;
+pub mod update;
+pub mod find;
+pub mod version;

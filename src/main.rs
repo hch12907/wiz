@@ -1,43 +1,35 @@
 #[macro_use]
 extern crate clap;
+extern crate crc;
+extern crate flate2;
+extern crate reqwest;
 extern crate rustc_serialize;
+extern crate tar;
 
-mod download;
-mod extract;
-mod find_package;
+use clap::{ App, Arg, SubCommand };
+
+#[macro_use]
+mod macros;
+mod backend;
+mod operation;
 mod package;
-mod package_version;
-mod verify;
-
-use clap::{App, Arg};
-use std::path::Path;
-
-arg_enum! {
-    #[derive(Debug)]
-    enum Method {
-        Install,
-        Remove
-    }
-}
+mod paths;
 
 fn main() {
+    let possible_operation = [ "install", "remove", "update", "upgrade" ];
     let arg_matches = App::new("wiz")
-        .version("0.0.1")
+        .version("0.1.0")
                           
-        .arg(Arg::with_name("method")
-             .help("Specifies what to do with the specified package")
-             .index(1)
-             .possible_values(&Method::variants())
-             .required(true))
-                                        
-        .arg(Arg::with_name("package")
-             .help("Specifies package")
-             .index(2)
-             .required(true))
+        .subcommand(SubCommand::with_name("operation")
+            .about("Specify what to do with the packages")
+            .arg(Arg::with_name("package")
+                .help("The specified package")
+                .index(1)
+                .required(true)))
         
         .get_matches();
 
-    let method = value_t!(arg_matches.value_of("method"), Method).unwrap();
+    /*let method = value_t!(arg_matches.value_of("method"), Method).unwrap();
     let package = arg_matches.value_of("package").unwrap_or("invalid");
 
     match method {
@@ -55,5 +47,5 @@ fn main() {
                 Err(why) => println!("Uninstall failed.\nReason: {}", why)
             }
         }
-    }
+    }*/
 }
