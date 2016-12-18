@@ -13,14 +13,13 @@ pub struct Package {
     pub name: String,
     pub version: Version,
     pub crc32: u32,
-    pub child_url: String, // Examples: /some_dir/something.exe
+    pub url: String,
     pub dependencies: Vec<Package> 
 }
 
 #[derive(RustcDecodable, RustcEncodable)]
 pub struct PackageList {
     pub packages: Vec<Package>,
-    pub parent_url: String, // Examples: https://www.foo.bar
     pub version: u32
 }
 
