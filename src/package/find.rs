@@ -43,7 +43,7 @@ pub fn select_package<F>(name: &str, path: &Path, select: F) -> Result<Package, 
     if found_packages.len() == 1 {
         Ok(found_packages[0].clone())
     } else {
-        let user_choice = select(found_packages);
+        let user_choice = select(&found_packages);
         Ok(found_packages[user_choice as usize].clone())
     }
 }
