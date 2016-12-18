@@ -13,6 +13,7 @@ mod macros;
 mod backend;
 mod operation;
 mod package;
+mod paths;
 
 fn main() {
     let possible_operation = [ "install", "remove", "update", "upgrade" ];
