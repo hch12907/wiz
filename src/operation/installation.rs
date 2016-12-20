@@ -28,9 +28,14 @@ fn select_package(vec: &Vec<Package>) -> u32 {
 }
 
 fn install_package(package: &Package, base_path: &Path) -> Result<(), String> {
-    try!(download::download_file_while(url, base_path, |all, current|{
-        println!("Downloaded {} bytes, out of {} bytes.", current, all);
-    });
+    try!(download::download_file_while(
+            &package.url, 
+            base_path.to_path_buf().append(&(paths::DOWNLOAD_DIR.to_string() + get_option!(package.url.split('/').last(), ""))), 
+            |all, current|{
+                println!("Downloaded {} bytes, out of {} bytes.", current, all);
+            }
+        )
+    );
 }
 
 pub fn install(input: &str, base_path: &Path) -> Result<(), String> {
