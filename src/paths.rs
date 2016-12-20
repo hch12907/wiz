@@ -5,13 +5,14 @@ use std::path::{ Path, PathBuf };
 /// Appends `append` to `path`.
 ///
 pub trait PathAppend {
-    fn append(&mut self, input: &str) -> &Path;
+    fn append(&self, input: &str) -> PathBuf;
 }
 
 impl PathAppend for PathBuf {
-    fn append(&mut self, input: &str) -> &Path {
-        self.push(input);
-        self.as_path()
+    fn append(&self, input: &str) -> PathBuf {
+        let mut buf = self.to_path_buf().clone();
+        buf.push(input);
+        buf.clone()
     }
 }
 
