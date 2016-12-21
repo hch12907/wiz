@@ -37,7 +37,10 @@ pub fn install(input: &str, base_path: &Path) -> Result<(), String> {
         let result = find::select_package(input, list_path.unwrap().path().as_path(), select_package); 
         if result.is_ok() {
             let result = result.unwrap();
-            return install_package(&result, base_path);
+            for dep in &result.dependencies {
+                try!(install_package(&dep, base_path));
+            }
+            try!(install_package(&result, base_path));
         }
     }
     Err("Specified package not found".to_string())
