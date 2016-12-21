@@ -2,7 +2,7 @@ use std::io::stdin;
 
 use package::pkg::Package;
 
-fn select_package(vec: &Vec<Package>) -> u32 {
+pub fn select_package(vec: &Vec<Package>) -> u32 {
     println!("There are multiple packages with similar name");
 
     for i in 0..vec.len() {
