@@ -2,7 +2,8 @@ use std::error::Error;
 use std::fs;
 use std::path::Path;
 
-use package::{ find, version };
+use package::{ find, version, pkg };
+use package::pkg::{ Package, Version };
 use operation::selection;
 use paths::{ self, PathAppend };
 
