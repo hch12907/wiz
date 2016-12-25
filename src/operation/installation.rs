@@ -6,7 +6,7 @@ use std::path::Path;
 use backend::download;
 use backend::extract;
 use operation::selection::select_package;
-use package::find;
+use package::{ find, version };
 use package::pkg::Package;
 use paths::{ self, PathAppend };  
 
@@ -27,7 +27,8 @@ fn install_package(package: &Package, base_path: &Path) -> Result<(), String> {
 
     try!(extract::extract_tar(&tarball_path, &gz_path));
     try!(extract::extract_gz(&gz_path, &install_path));
-
+    try!(version::update_list(result, &base_path.to_path_buf().append(paths::INSTALLED_PACKAGE_LIST)));
+    
     Ok(())
 }
 
