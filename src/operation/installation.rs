@@ -40,7 +40,7 @@ pub fn install(input: &str, base_path: &Path) -> Result<(), String> {
             for dep in &result.dependencies {
                 try!(install_package(&dep, base_path));
             }
-            try!(install_package(&result, base_path));
+            return install_package(&result, base_path)
         }
     }
     Err("Specified package not found".to_string())
