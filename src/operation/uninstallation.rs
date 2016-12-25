@@ -14,9 +14,10 @@ fn uninstall_package(input: &Package, base_path: &Path) -> Result<bool, String> 
             Ok(x) => x,
             Err(why) => return Err(why.description().to_string())
         }
+        try!(version::remove_from_list(&input.name, &base_path.to_path_buf().append(paths::INSTALLED_PACKAGE_LIST)));
         return Ok(true)
     }
-    return Ok(false);
+    return Ok(false)
 }
 
 pub fn uninstall(input: &str, base_path: &Path) -> Result<bool, String> {

@@ -44,3 +44,14 @@ pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
     list.push(package.clone());
     return raw_update(&list, path)
 }
+
+pub fn remove_from_list(package: &str, path: &Path) -> Result<(), String> {
+    let mut list: Vec<Package> = try!(get_list(path));
+    for x in 0..list.len() {
+        if &list[x].name == &package.name {
+            list.remove(x);
+        }
+    }
+
+    return raw_update(&list, path)
+}
