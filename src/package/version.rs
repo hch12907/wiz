@@ -11,7 +11,7 @@ use package::pkg::{ Package, Version };
 /// Parse the list from `path` and
 /// returns the parsed list.
 ///
-pub fn get_list(path: &Path) -> Result<Vec<(String, Version)>, String> {
+pub fn get_list(path: &Path) -> Result<Vec<Package>, String> {
     let mut buffer = String::new();
     let mut file = get!(File::open(path), "An error occured while opening file");
     
@@ -33,14 +33,14 @@ fn raw_update<T: Encodable>(object: &T, path: &Path) -> Result<(), String> {
 /// not be updated.
 ///  
 pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
-    let mut list: Vec<(String, Version)> = try!(get_list(path));
-    for x in 0..(list.len() - 1) {
-        if &list[x].0 == &package.name {
-            list[x].1 = package.version.clone();
+    let mut list: Vec<Package> = try!(get_list(path));
+    for x in 0..list.len() {
+        if &list[x].name == &package.name {
+            list[x].version = package.version.clone();
             return raw_update(&list, path)
         }
     };
 
-    list.push((package.name.clone(), package.version.clone()));
+    list.push(package.clone());
     return raw_update(&list, path)
 }
