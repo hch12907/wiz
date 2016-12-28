@@ -7,7 +7,7 @@ use package::pkg::{ Package, Version };
 use operation::selection;
 use paths::{ self, PathAppend };
 
-fn uninstall_package(input: &Package, base_path: &Path) -> Result<bool, String> {
+pub fn uninstall_package(input: &Package, base_path: &Path) -> Result<bool, String> {
     let installation_path = base_path.to_path_buf().append(&(paths::PACKAGE_INSTALL_DIR.to_string() + &input.name + "/"));
     if installation_path.exists() {
         match fs::remove_dir_all(&installation_path) {
