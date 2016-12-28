@@ -48,7 +48,7 @@ pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
 pub fn remove_from_list(package: &str, path: &Path) -> Result<(), String> {
     let mut list: Vec<Package> = try!(get_list(path));
     for x in 0..list.len() {
-        if &list[x].name == &package.name {
+        if &list[x].name == &package {
             list.remove(x);
         }
     }
