@@ -33,7 +33,7 @@ fn raw_update<T: Encodable>(object: &T, path: &Path) -> Result<(), String> {
 /// not be updated.
 ///  
 pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
-    let mut list: Vec<Package> = try!(get_list(path));
+    let mut list: Vec<Package> = get_list(path)?;
     for x in 0..list.len() {
         if &list[x].name == &package.name {
             list[x].version = package.version.clone();
@@ -46,7 +46,7 @@ pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
 }
 
 pub fn remove_from_list(package: &str, path: &Path) -> Result<(), String> {
-    let mut list: Vec<Package> = try!(get_list(path));
+    let mut list: Vec<Package> = get_list(path)?;
     for x in 0..list.len() {
         if &list[x].name == &package {
             list.remove(x);

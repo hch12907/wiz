@@ -23,9 +23,9 @@ fn update_list<F>(url: &str, path: &Path, after_download: F) -> Result<bool, Str
         let mut temporary_download_to = PathBuf::new();
             temporary_download_to.push(download_to.as_path());
             temporary_download_to.set_extension(".tmp");
-        try!(download::download_file_and(url, temporary_download_to.as_path(), after_download));
+        download::download_file_and(url, temporary_download_to.as_path(), after_download)?;
         
-        if try!(verify::verify_file_crc32(download_to.as_path())) == try!(verify::verify_file_crc32(temporary_download_to.as_path())) {
+        if verify::verify_file_crc32(download_to.as_path())? == verify::verify_file_crc32(temporary_download_to.as_path())? {
             get!(fs::remove_file(temporary_download_to.as_path()), "An error occured while removing unneeded package list.");
             Ok(false)
         } else {
@@ -35,7 +35,7 @@ fn update_list<F>(url: &str, path: &Path, after_download: F) -> Result<bool, Str
         }
     // Indeed, this function is a giant clusterfuck. Apologies for code-gore.
     } else {
-        try!(download::download_file_and(url, download_to.as_path(), after_download));
+        download::download_file_and(url, download_to.as_path(), after_download)?;
         Ok(true)
     }
 }

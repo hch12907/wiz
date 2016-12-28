@@ -38,7 +38,7 @@ pub fn find_package(name: &str, path: &Path) -> Result<Vec<Package>, String> {
 ///
 pub fn select_package<F>(name: &str, path: &Path, select: F) -> Result<Package, String> 
     where F: Fn(&Vec<Package>) -> u32 {
-    let found_packages = try!(find_package(name, path));
+    let found_packages = find_package(name, path)?;
     
     if found_packages.len() == 1 {
         Ok(found_packages[0].clone())

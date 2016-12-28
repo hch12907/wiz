@@ -51,7 +51,7 @@ pub fn download_file_while<F>(url: &str, output: &Path, and: F) -> Result<u64, S
 ///
 pub fn download_file_and<F>(url: &str, output: &Path, and: F) -> Result<u64, String> 
     where F: Fn(u64) {
-    let length = try!(download_file_while(url, output, |_, _| { }));
+    let length = download_file_while(url, output, |_, _| { })?;
     and(length);
     Ok(length)
 }
