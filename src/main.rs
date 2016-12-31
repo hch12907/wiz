@@ -11,7 +11,7 @@ use clap::{ App, Arg, SubCommand };
 #[macro_use]
 mod macros;
 mod backend;
-mod operation;
+mod frontend;
 mod package;
 mod paths;
 
