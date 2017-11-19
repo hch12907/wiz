@@ -1,11 +1,11 @@
 # Wiz
-[![Build Status](https://travis-ci.org/hch12907/wiz.svg?branch=master)](https://travis-ci.org/hch12907/wiz)
+[![Build Status](https://travis-ci.org/hch12907/wiz.svg?branch=rewrite)](https://travis-ci.org/hch12907/wiz)
 
 > Wiz is a package installer/manager and launcher, written in pure Rust (with no bindings).
 
 Wiz started out as a tool aiming to ease the installation of libraries and binaries.
 
-### Goals for the rewrite
+## Goals for the rewrite
 The old code contained a lot of hardcoding, and the whole thing was just too messy to be looked at. This rewrite tries to organize the code properly: minimizing the amount of hardcoding, to pave the road for future expansion of the program. More features of Rust should be utilized to achieve this, as the old code utilized only macros and structs.
 
 <!--
@@ -21,7 +21,7 @@ Installer: <snip>
 Source: <snip>
 -->
 
-### Building Wiz
+## Building Wiz
 If you have already installed [Rust and Cargo](https://www.rust-lang.org/en-US/install.html), then simply run these at any given directory:
 ```
 git clone https://github.com/hch12907/wiz
@@ -30,5 +30,5 @@ cargo build
 ```
 
 ## Contributors
-[hch12907](https://github.com/hch12907)
-[zypeh](https://github.com/zypeh)
+* [hch12907](https://github.com/hch12907)
+* [zypeh](https://github.com/zypeh)
