@@ -19,7 +19,7 @@ struct Package {
     dependencies: Vec<Package>, 
 }
 
-struct List {
+struct Repository {
     url: String,
     packages: Vec<Package>,
 }
