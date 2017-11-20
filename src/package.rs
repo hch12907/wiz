@@ -1,9 +1,15 @@
 use std::cmp::Ordering;
 
-enum PackageType {
-    Bin, // Binary
-    Lib, // Library
-    Src, // Source
+/// An enum for the package types.
+pub enum PackageType {
+    /// Stands for binary
+    Bin,
+    /// Stands for library
+    Lib,
+    /// Stands for source
+    Src,
+
+    // the comments are really obvious, haha
 }
 
 /// A struct made for storing the version of the packages.
@@ -24,15 +30,16 @@ pub struct Version {
     additional: Option<String>,
 }
 
-struct Package {
+/// A struct for storing package informations, such as its name and version.
+pub struct Package {
     name: String,
     hash: u32,
     version: Version,
     package_type: PackageType,
-    dependencies: Vec<Package>, 
+    dependencies: Vec<Package>,
 }
 
-struct Repository {
+pub struct Repository {
     url: String,
     packages: Vec<Package>,
 }
@@ -100,5 +107,34 @@ impl Version {
     /// breaking changes. 
     pub fn is_back_compatible(&self, other: &Self) -> bool {
         self.major == other.major
+    }
+}
+
+impl PartialEq for Package {
+    fn eq(&self, other: &Self) -> bool {
+        self.name == other.name &&
+        self.version == other.version
+    }
+}
+
+impl Package {
+    /// Returns the name of the package.
+    fn name(&self) -> &str { 
+        &self.name 
+    }
+
+    /// Returns the version of the package.
+    fn version(&self) -> &Version {
+        &self.version
+    }
+
+    /// Returns the hash of the package.
+    fn hash(&self) -> u32 {
+        self.hash
+    }
+
+    /// Returns the type of the package.
+    fn package_type(&self) -> &PackageType {
+        &self.package_type
     }
 }
