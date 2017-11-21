@@ -1,3 +1,5 @@
+extern crate toml;
+
 mod error;
 mod package;
 
