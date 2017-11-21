@@ -114,22 +114,22 @@ impl PartialEq for Package {
 
 impl Package {
     /// Returns the name of the package.
-    fn name(&self) -> &str { 
+    pub fn name(&self) -> &str { 
         &self.name 
     }
 
     /// Returns the version of the package.
-    fn version(&self) -> &Version {
+    pub fn version(&self) -> &Version {
         &self.version
     }
 
     /// Returns the hash of the package.
-    fn hash(&self) -> u32 {
+    pub fn hash(&self) -> u32 {
         self.hash
     }
 
     /// Returns the type of the package.
-    fn package_type(&self) -> &PackageType {
+    pub fn package_type(&self) -> &PackageType {
         &self.package_type
     }
 }
