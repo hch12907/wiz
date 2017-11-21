@@ -39,11 +39,6 @@ pub struct Package {
     dependencies: Vec<Package>,
 }
 
-pub struct Repository {
-    url: String,
-    packages: Vec<Package>,
-}
-
 impl PartialEq for Version {
     fn eq(&self, other: &Self) -> bool {
         self == other
