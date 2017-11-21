@@ -1,3 +1,4 @@
+extern crate reqwest;
 extern crate toml;
 
 mod download;

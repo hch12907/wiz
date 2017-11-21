@@ -4,4 +4,5 @@ version = "0.1.0"
 authors = ["hch12907 <haochengho12907@gmail.com>"]
 
 [dependencies]
+reqwest="0.8.1"
 toml="0.4.5"
