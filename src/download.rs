@@ -43,7 +43,7 @@ impl<'a> PackageDownload<'a> {
     /// A bool to determine whether the package is downloaded.
     fn is_downloaded(&self) -> bool {
         match self {
-            &PackageDownload::IsFinished { location: _, file_size: _ } => true,
+            &PackageDownload::IsFinished { .. } => true,
             _ => false
         }
     }
@@ -52,9 +52,9 @@ impl<'a> PackageDownload<'a> {
     /// at.
     fn store_path(&self) -> &'a Path {
         match self {
-            &PackageDownload::IsFinished { location: path, file_size: _ } => path,
-            &PackageDownload::InProgress { location: path, progress: _ , file_size: _} => path,
-            &PackageDownload::NotStarted { location: path, url: _ } => path,
+            &PackageDownload::IsFinished { location: path, .. } => path,
+            &PackageDownload::InProgress { location: path, .. } => path,
+            &PackageDownload::NotStarted { location: path, .. } => path,
         }
     }
 }
