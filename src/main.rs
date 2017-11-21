@@ -1,5 +1,6 @@
 extern crate toml;
 
+mod download;
 mod error;
 mod package;
 mod repository;
