@@ -70,14 +70,14 @@ impl From<reqwest::Error> for PackageError {
 
         PackageError::Download(
             String::new() +
-            "related url: " + related_url +
-            "http related: " + &err.is_http().to_string() +
+            "related url:           " + related_url +
+            "http related:          " + &err.is_http().to_string() +
             "serialization related: " + &err.is_serialization().to_string() +
-            "redirect related: " + &err.is_redirect().to_string() +
-            "client related: " + &err.is_client_error().to_string() +
-            "server related: " + &err.is_server_error().to_string() +
-            "status code: " + status_code +
-            "other messages: " + err.description()
+            "redirect related:      " + &err.is_redirect().to_string() +
+            "client related:        " + &err.is_client_error().to_string() +
+            "server related:        " + &err.is_server_error().to_string() +
+            "status code:           " + status_code +
+            "other messages:        " + err.description()
         )
     }
 }
