@@ -7,6 +7,7 @@ mod download;
 mod error;
 mod package;
 mod repository;
+mod state;
 
 fn main() {
     println!("Hello world!");
