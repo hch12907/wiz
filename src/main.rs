@@ -8,6 +8,7 @@ mod error;
 mod package;
 mod repository;
 mod state;
+mod unpack;
 
 fn main() {
     println!("Hello world!");
