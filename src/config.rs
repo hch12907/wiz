@@ -22,3 +22,25 @@ impl Default for Config {
     }
 }
 
+impl Config {
+    /// Read the config file from the default config path.
+    /// If the config file is read & parsed properly, it should return
+    /// a `Config`.
+    fn read() -> Result<Self, PackageError> {
+        if let Self { config_path: Some(path), .. } = Self::default() {
+            // Read the config file into a string
+            let mut config = File::open(path)?;
+            let mut content = String::new();
+            config.read_to_string(&mut content)?;
+            // Try parsing the string, and convert it into a `Config`.
+            let config = content.parse::<toml::Value>()?;
+            let config = config.try_into::<Self>()?;
+            Ok(config)
+        } else {
+            // This should never, ever, happen.
+            Err(PackageError::Parsing(
+                String::from("Unable to get config_path from the default cfg.")
+            ))
+        }
+    }
+}
