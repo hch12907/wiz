@@ -1,10 +1,12 @@
 // In heavy WIP
 use std::fs::File;
 use std::io::Read;
+use std::path::Path;
 use toml;
 
 use error::PackageError;
 
+/// Represents the config file.
 #[derive(Deserialize)]
 struct Config {
     buffer_size: Option<u64>,
@@ -23,19 +25,28 @@ impl Default for Config {
 }
 
 impl Config {
+    /// Read the config file from the config path specified in `path`.
+    /// If the config file is read & parsed properly, it should return
+    /// a `Config`.
+    pub fn read_from(path: &Path) -> Result<Self, PackageError> {
+        // Read the config file into a string
+        let mut config = File::open(path)?;
+        let mut content = String::new();
+        config.read_to_string(&mut content)?;
+
+        // Try parsing the string, and convert it into a `Config`.
+        let config = content.parse::<toml::Value>()?;
+        let config = config.try_into::<Self>()?;
+        Ok(config)
+    }
+
+    
     /// Read the config file from the default config path.
     /// If the config file is read & parsed properly, it should return
     /// a `Config`.
-    fn read() -> Result<Self, PackageError> {
+    pub fn read_from_default() -> Result<Self, PackageError> {
         if let Self { config_path: Some(path), .. } = Self::default() {
-            // Read the config file into a string
-            let mut config = File::open(path)?;
-            let mut content = String::new();
-            config.read_to_string(&mut content)?;
-            // Try parsing the string, and convert it into a `Config`.
-            let config = content.parse::<toml::Value>()?;
-            let config = config.try_into::<Self>()?;
-            Ok(config)
+            Self::read_from(Path::new(&path))
         } else {
             // This should never, ever, happen.
             Err(PackageError::Parsing(
@@ -43,4 +54,5 @@ impl Config {
             ))
         }
     }
+
 }
