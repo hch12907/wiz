@@ -8,10 +8,10 @@ use error::PackageError;
 
 /// Represents the config file.
 #[derive(Deserialize)]
-struct Config {
-    buffer_size: Option<u64>,
-    config_path: Option<String>,
-    download_path: Option<String>,
+pub struct Config {
+    pub buffer_size: Option<u64>,
+    pub config_path: Option<String>,
+    pub download_path: Option<String>,
 }
 
 impl Default for Config {
