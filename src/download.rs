@@ -23,7 +23,6 @@ fn download_file<F>(url: &str, to_path: &Path, callback: F) -> Result<u64, Packa
             len
         });
 
-
     // For every `buffer_size` bytes, call the callback once.
     let Config { buffer_size: buffer_size, .. } = Config::default();
     
@@ -36,7 +35,7 @@ fn download_file<F>(url: &str, to_path: &Path, callback: F) -> Result<u64, Packa
     
     for (index, byte) in response.bytes().enumerate() {
         // Write to the target, returns an error if necessary.
-        target.write(&[byte?]);
+        target.write(&[byte?])?;
 
         // Checks whether it's time to call the callback, and call it if it is.
         // Plus one to `index` as `index` itself is zero-indexed.
