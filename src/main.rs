@@ -1,3 +1,4 @@
+extern crate flate2;
 extern crate reqwest;
 #[macro_use] extern crate serde_derive;
 extern crate sha2;
