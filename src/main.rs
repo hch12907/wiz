@@ -6,6 +6,7 @@ extern crate toml;
 mod config;
 mod download;
 mod error;
+mod hash;
 mod package;
 mod repository;
 mod state;
