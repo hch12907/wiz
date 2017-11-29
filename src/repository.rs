@@ -15,7 +15,7 @@ pub struct Repository {
 
 /// Struct which represents a list of Repositories.
 #[derive(Deserialize)]
-struct RepositoryList(Vec<Repository>);
+pub struct RepositoryList(pub Vec<Repository>);
 
 impl Repository {
     /// Returns the URL of the Repository.
