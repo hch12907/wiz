@@ -5,6 +5,7 @@ use std::path::Path;
 use toml;
 
 use error::PackageError;
+use repository::RepositoryList;
 
 /// Represents the config file.
 #[derive(Deserialize)]
@@ -12,6 +13,7 @@ pub struct Config {
     pub buffer_size: Option<u64>,
     pub config_path: Option<String>,
     pub download_path: Option<String>,
+    pub repository: Option<RepositoryList>,
 }
 
 impl Default for Config {
@@ -20,6 +22,7 @@ impl Default for Config {
             buffer_size: Some(65536),
             config_path: Some(String::from("~/.wiz/config/")),
             download_path: Some(String::from("~/.wiz/downloads/")),
+            repository: Some(RepositoryList(Vec::new())),
         }
     }
 }

@@ -43,6 +43,8 @@ impl Repository {
 }
 
 impl RepositoryList {
+
+    /* The function for now, is reserved for future uses.
     fn read_from(path: &Path) -> Result<Self, PackageError> {
         let mut list = File::open(path)?;
         let mut content = String::new();
@@ -50,5 +52,5 @@ impl RepositoryList {
         let list = content.parse::<Toml>()?;
         let list = list.try_into::<Self>()?;
         Ok(list)
-    }
+    } */
 }
