@@ -5,7 +5,7 @@ use std::path::Path;
 use toml;
 
 use error::PackageError;
-use repository::RepositoryList;
+use repository::RepositoryUrlList;
 
 /// Represents the config file.
 #[derive(Deserialize)]
@@ -13,7 +13,8 @@ pub struct Config {
     pub buffer_size: Option<u64>,
     pub config_path: Option<String>,
     pub download_path: Option<String>,
-    pub repository: Option<RepositoryList>,
+    pub unpack_path: Option<String>,
+    pub repository: Option<RepositoryUrlList>,
 }
 
 impl Default for Config {
@@ -22,7 +23,8 @@ impl Default for Config {
             buffer_size: Some(65536),
             config_path: Some(String::from("~/.wiz/config/")),
             download_path: Some(String::from("~/.wiz/downloads/")),
-            repository: Some(RepositoryList(Vec::new())),
+            unpack_path: Some(String::from("~/.wiz/downloads/unpacked/")),
+            repository: Some(RepositoryUrlList(Vec::new())),
         }
     }
 }
@@ -80,17 +82,22 @@ impl Config {
         }
     }
 
+    /// This function sets the None(s) in the config, to the default values.
     pub fn fill_with_default(mut self) -> Self {
+        // Destructuring the default configs into individual variables.
         let Self {
             buffer_size: buf_size,
             config_path: conf_path,
             download_path: dl_path,
+            unpack_path: unpk_path,
             repository: repo,
         } = Self::default();
 
+        // If there are None(s), set them to the default value.
         set_on_none!(self, buffer_size, buf_size);
         set_on_none!(self, config_path, conf_path);
         set_on_none!(self, download_path, dl_path);
+        set_on_none!(self, unpack_path, unpk_path);
         set_on_none!(self, repository, repo);
 
         self
