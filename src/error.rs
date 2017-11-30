@@ -1,6 +1,7 @@
 use reqwest;
 use std::error::Error as StdError;
 use std::io;
+use std::string::FromUtf8Error;
 use toml::de::Error as TomlDeserializeError;
 
 /// The error type for the program's every operations, such as TOML Parsing
@@ -9,6 +10,7 @@ use toml::de::Error as TomlDeserializeError;
 pub enum PackageError {
     Download(String),
     Parsing(String),
+    Utf8(String),
     IO(String),
 }
 
@@ -78,6 +80,30 @@ impl From<reqwest::Error> for PackageError {
             "server related:        " + &err.is_server_error().to_string() +
             "status code:           " + status_code +
             "other messages:        " + err.description()
+        )
+    }
+}
+
+impl From<FromUtf8Error> for PackageError {
+    fn from(err: FromUtf8Error) -> Self {
+        let utf8_error = err.utf8_error();
+        let errored_bytes = 
+            err
+            // Gets the invalid bytes of the string
+            .as_bytes()
+            // Convert the bytes into an iterator.
+            .iter()
+            // Reduce the array of bytes into a string.
+            .fold(String::from("invalid bytes: "), |acc, cur| {
+                acc + ", " + &cur.to_string()
+            });
+
+        PackageError::Utf8(
+            String::new() +
+            "description:           " + err.description() +
+            "further description:   " + utf8_error.description() +
+            "bytes are valid up to: " + &utf8_error.valid_up_to().to_string() +
+            /* invalid bytes:      */   &errored_bytes
         )
     }
 }
