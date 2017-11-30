@@ -6,7 +6,7 @@ use std::path::Path;
 use config::Config;
 use error::PackageError;
 
-fn download_file<F>(url: &str, to_path: &Path, callback: F) -> Result<u64, PackageError>
+pub fn download_file<F>(url: &str, to_path: &Path, callback: F) -> Result<u64, PackageError>
     where F: Fn(u64, u64) 
 {
     // GET the URL, returning an error if necessary.
