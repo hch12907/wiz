@@ -9,6 +9,7 @@ mod config;
 mod download;
 mod error;
 mod hash;
+mod installation;
 mod package;
 mod repository;
 mod state;
