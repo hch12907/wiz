@@ -27,6 +27,28 @@ impl Default for Config {
     }
 }
 
+/// Internal macro, to ease the implementation of `fill_with_default`.
+macro_rules! set_on_none {
+    ($dest:ident, $key:ident, $value:expr) => (
+        match $dest {
+            Self { $key: ref mut x, .. } => {
+                match x {
+                    &mut Some(_) => {},
+                    &mut None => *x = $value,
+                }
+            }
+        }
+        
+        // Wait for RFC-2086 to be implemented first.
+        /* 
+            [allow(irrefutable_let_pattern)]
+            if let Config { $key: mut x, .. } = $dest {
+                if let None = x { x = $value }
+            }
+        */
+    );
+}
+
 impl Config {
     /// Read the config file from the config path specified in `path`.
     /// If the config file is read & parsed properly, it should return
@@ -58,4 +80,19 @@ impl Config {
         }
     }
 
+    pub fn fill_with_default(mut self) -> Self {
+        let Self {
+            buffer_size: buf_size,
+            config_path: conf_path,
+            download_path: dl_path,
+            repository: repo,
+        } = Self::default();
+
+        set_on_none!(self, buffer_size, buf_size);
+        set_on_none!(self, config_path, conf_path);
+        set_on_none!(self, download_path, dl_path);
+        set_on_none!(self, repository, repo);
+
+        self
+    }
 }
