@@ -1,5 +1,5 @@
 // In heavy WIP
-use std::fs::File;
+use std::fs::{ self, File };
 use std::io::Read;
 use std::path::Path;
 use toml;
@@ -55,13 +55,26 @@ impl Config {
     /// Read the config file from the config path specified in `path`.
     /// If the config file is read & parsed properly, it should return
     /// a `Config`.
-    pub fn read_from(path: &Path) -> Result<Self, PackageError> {
-        // Read the config file into a string
-        let mut config = File::open(path)?;
+    pub fn read_from<P: AsRef<Path>>(path: P) -> Result<Self, PackageError> {
+        let path = path.as_ref(); // maybe I should replace &Path with these
+        
         let mut content = String::new();
-        config.read_to_string(&mut content)?;
 
-        // Try parsing the string, and convert it into a `Config`.
+        // Check whether there are tons of configs in the path
+        if path.is_dir() {
+            // Read every config files and put them into a string, if it is
+            for entry in fs::read_dir(path)? {
+                let entry = entry?;
+                let mut config = File::open(entry.path())?;
+                config.read_to_string(&mut content)?;
+            }
+        } else {
+            // Read the config file into a string, if it isn't
+            let mut config = File::open(path)?;
+            config.read_to_string(&mut content)?;
+        }
+
+        // Try to parse the string, and convert it into a `Config`.
         let config = content.parse::<toml::Value>()?;
         let config = config.try_into::<Self>()?;
         Ok(config)
@@ -73,7 +86,7 @@ impl Config {
     /// a `Config`.
     pub fn read_from_default() -> Result<Self, PackageError> {
         if let Self { config_path: Some(path), .. } = Self::default() {
-            Self::read_from(Path::new(&path))
+            Self::read_from(&path)
         } else {
             // This should never, ever, happen.
             Err(PackageError::Parsing(
