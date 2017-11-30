@@ -94,16 +94,17 @@ impl From<FromUtf8Error> for PackageError {
             // Convert the bytes into an iterator.
             .iter()
             // Reduce the array of bytes into a string.
-            .fold(String::from("invalid bytes: "), |acc, cur| {
+            // Example output: `152, 84, 156, 78`
+            .fold(String::from(""), |acc, cur| {
                 acc + ", " + &cur.to_string()
             });
 
         PackageError::Utf8(
             String::new() +
-            "description:           " + err.description() +
-            "further description:   " + utf8_error.description() +
-            "bytes are valid up to: " + &utf8_error.valid_up_to().to_string() +
-            /* invalid bytes:      */   &errored_bytes
+            "description:         " + err.description() +
+            "further description: " + utf8_error.description() +
+            "bytes valid up to:   " + &utf8_error.valid_up_to().to_string() +
+            "invalid bytes:       " + &errored_bytes
         )
     }
 }
