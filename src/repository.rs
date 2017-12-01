@@ -3,19 +3,21 @@ use std::io::Read;
 use std::path::Path;
 use toml::Value as Toml;
 
+use download;
 use error::PackageError;
+use list::RepositoryList;
 use package::Package;
 
 /// The struct which represents the repos.
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Repository {
     url: String,
     packages: Vec<Package>,
 }
 
 /// Struct which represents a list of Repositories.
-#[derive(Deserialize)]
-pub struct RepositoryList(pub Vec<Repository>);
+#[derive(Serialize, Deserialize)]
+pub struct RepositoryUrlList(pub Vec<String>);
 
 impl Repository {
     /// Returns the URL of the Repository.
@@ -42,9 +44,7 @@ impl Repository {
     }
 }
 
-impl RepositoryList {
-
-    /* The function for now, is reserved for future uses.
+impl RepositoryUrlList {
     fn read_from(path: &Path) -> Result<Self, PackageError> {
         let mut list = File::open(path)?;
         let mut content = String::new();
@@ -52,5 +52,21 @@ impl RepositoryList {
         let list = content.parse::<Toml>()?;
         let list = list.try_into::<Self>()?;
         Ok(list)
-    } */
+    }
+
+    fn update(&self, path: &Path) -> Result<RepositoryList, PackageError> {
+        let &RepositoryUrlList(ref url_list) = self;
+        
+        let mut repo_list = RepositoryList(Vec::new()); {
+            let RepositoryList(ref mut vec) = repo_list;
+            for url in url_list {
+                let content = download::download_buf(&url)?;
+                let content = String::from_utf8(content)?;
+                let content = content.parse::<Toml>()?;
+                let content = content.try_into::<Repository>()?;
+                vec.push(content);
+            }
+        }
+        Ok(repo_list)
+    }
 }
