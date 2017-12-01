@@ -39,6 +39,7 @@ pub struct Package {
     hash: u32,
     version: Version,
     package_type: PackageType,
+    path: String, // relative path
     dependencies: Vec<Package>,
 }
 
