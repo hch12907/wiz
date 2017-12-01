@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 
 /// An enum for the package types.
-#[derive(Deserialize)]
+#[derive(Serialize,Deserialize)]
 pub enum PackageType {
     /// Stands for binary
     Bin,
@@ -24,7 +24,7 @@ pub enum PackageType {
 /// 
 /// The `additional` field is an optional field for the package host to put
 /// text such as `alpha` or `stable`, it's not involved in the comparisons.
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Version {
     major: u32,
     minor: u32,
@@ -33,7 +33,7 @@ pub struct Version {
 }
 
 /// A struct for storing package informations, such as its name and version.
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Package {
     name: String,
     hash: u32,
