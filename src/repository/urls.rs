@@ -3,7 +3,7 @@ use std::io::Read;
 use std::path::Path;
 use toml::Value as Toml;
 
-use download;
+use utils::download;
 use error::PackageError;
 use repository::{ Repository, RepositoryList };
 

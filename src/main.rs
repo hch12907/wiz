@@ -8,14 +8,12 @@ extern crate tar;
 extern crate toml;
 
 mod config;
-mod download;
 mod error;
-mod hash;
 mod installation;
 mod package;
 mod repository;
 mod state;
-mod unpack;
+mod utils;
 
 fn main() {
     println!("Hello world!");
