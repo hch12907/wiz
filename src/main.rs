@@ -12,7 +12,6 @@ mod download;
 mod error;
 mod hash;
 mod installation;
-mod list;
 mod package;
 mod repository;
 mod state;

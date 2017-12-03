@@ -1,4 +1,3 @@
-use package::Package;
 use repository::Repository;
 
 /// Caches all the repositories into a single list, so they can be accessed
