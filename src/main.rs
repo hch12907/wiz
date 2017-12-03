@@ -12,7 +12,6 @@ mod error;
 mod installation;
 mod package;
 mod repository;
-mod state;
 mod utils;
 
 fn main() {

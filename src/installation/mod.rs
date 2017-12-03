@@ -1,3 +1,4 @@
+pub mod initialization;
 pub mod installation;
 mod state;
 
