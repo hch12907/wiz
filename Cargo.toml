@@ -4,7 +4,9 @@ version = "0.1.0"
 authors = ["hch12907 <haochengho12907@gmail.com>"]
 
 [dependencies]
-flate2 = { version = "0.2.20", features = ["rust_backend"], default-features = false }
+# Apparently, the rust_backend feature is not working.
+# flate2 = { version = "0.2.20", features = ["rust_backend"], default-features = false }
+flate2 = { version = "0.2.20", features = ["zlib"], default-features = false }
 reqwest="0.8.1"
 serde="1.0.21"
 serde_derive="1.0.21"
