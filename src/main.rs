@@ -14,6 +14,9 @@ mod package;
 mod repository;
 mod utils;
 
+use std::path::Path;
+
 fn main() {
-    println!("Hello world!");
+    // We do config path here.
+    let config = Path::new("~/.config/wiz");
 }

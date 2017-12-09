@@ -11,7 +11,7 @@ use repository::RepositoryUrls;
 #[derive(Deserialize)]
 pub struct Config {
     pub buffer_size: Option<u64>,
-    pub config_path: Option<String>,
+    // pub config_path: Option<String>,
     pub download_path: Option<String>,
     pub unpack_path: Option<String>,
     pub repository: Option<RepositoryUrls>,
@@ -21,7 +21,7 @@ impl Default for Config {
     fn default() -> Self {
         Self {
             buffer_size: Some(65536),
-            config_path: Some(String::from("~/.wiz/config/")),
+            // config_path: Some(String::from("~/.wiz/config/")),
             download_path: Some(String::from("~/.wiz/downloads/")),
             unpack_path: Some(String::from("~/.wiz/downloads/unpacked/")),
             repository: Some(RepositoryUrls(Vec::new())),
@@ -58,27 +58,11 @@ impl Config {
         Ok(config)
     }
 
-    
-    /// Read the config file from the default config path.
-    /// If the config file is read & parsed properly, it should return
-    /// a `Config`.
-    pub fn read_from_default() -> Result<Self, PackageError> {
-        if let Self { config_path: Some(path), .. } = Self::default() {
-            Self::read_from(&path)
-        } else {
-            // This should never, ever, happen.
-            Err(PackageError::Parsing(
-                String::from("Unable to get config_path from the default cfg.")
-            ))
-        }
-    }
-
     /// This function sets the None(s) in the config, to the default values.
     pub fn fill_with_default(mut self) -> Self {
         // Destructuring the default configs into individual variables.
         let Self {
             buffer_size: buf_size,
-            config_path: conf_path,
             download_path: dl_path,
             unpack_path: unpk_path,
             repository: repo,
@@ -108,7 +92,6 @@ impl Config {
 
         // If there are None(s), set them to the default value.
         set_on_none!(self, buffer_size, buf_size);
-        set_on_none!(self, config_path, conf_path);
         set_on_none!(self, download_path, dl_path);
         set_on_none!(self, unpack_path, unpk_path);
         set_on_none!(self, repository, repo);
