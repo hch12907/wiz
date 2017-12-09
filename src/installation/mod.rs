@@ -1,4 +1,4 @@
-pub mod initialization;
+pub mod init;
 pub mod installation;
 mod state;
 
