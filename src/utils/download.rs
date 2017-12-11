@@ -34,7 +34,7 @@ pub fn download_file<F, P>(url: &str, to_path: P, callback: F) -> Result<u64, Pa
     // For every `buffer_size` bytes, call the callback once.
     // `buffer_size` decides how frequent the function calls the callback by
     // checking whether (downloaded bytes) % `buffer_size` is 0.
-    let Config { buffer_size: buffer_size, .. } = Config::default();
+    let Config { buffer_size, .. } = Config::default();
     let buffer_size = buffer_size.unwrap_or(65536);
 
     // Obviously, the target file to be written to by the BufWriter.
