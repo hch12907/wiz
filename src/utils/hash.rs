@@ -8,7 +8,7 @@ use error::PackageError;
 /// Calculates the SHA-512 of a file.
 /// Returns `Box<[u8]>` if there are no errors during the process of
 /// calculation.
-fn sha2(path: &Path) -> Result<Box<[u8]>, PackageError> {    
+fn sha2<P: AsRef<Path>>(path: P) -> Result<Box<[u8]>, PackageError> {    
     // Create a SHA512 hasher.
     let mut hasher = Sha512::default();
     // Read the file from `path`

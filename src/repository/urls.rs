@@ -12,7 +12,7 @@ use repository::{ Repository, RepositoryList };
 pub struct RepositoryUrlList(pub Vec<String>);
 
 impl RepositoryUrlList {
-    fn read_from(path: &Path) -> Result<Self, PackageError> {
+    fn read_from<P: AsRef<Path>>(path: P) -> Result<Self, PackageError> {
         let mut list = File::open(path)?;
         let mut content = String::new();
         list.read_to_string(&mut content)?;

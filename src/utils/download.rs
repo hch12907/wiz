@@ -21,9 +21,10 @@ fn get_content_length(url: &str) -> Result<u64, PackageError> {
     }))
 }
 
-pub fn download_file<F>(url: &str, to_path: &Path, callback: F) -> Result<u64, PackageError>
-    where F: Fn(u64, u64) 
+pub fn download_file<F, P>(url: &str, to_path: P, callback: F) -> Result<u64, PackageError>
+    where F: Fn(u64, u64), P: AsRef<Path> 
 {
+
     // GET the URL, returning an error if necessary.
     let response = reqwest::get(url)?;
     

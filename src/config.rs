@@ -34,12 +34,10 @@ impl Config {
     /// If the config file is read & parsed properly, it should return
     /// a `Config`.
     pub fn read_from<P: AsRef<Path>>(path: P) -> Result<Self, PackageError> {
-        let path = path.as_ref(); // maybe I should replace &Path with these
-        
         let mut content = String::new();
 
         // Check whether there are tons of configs in the path
-        if path.is_dir() {
+        if path.as_ref().is_dir() {
             // Read every config files and put them into a string, if it is
             for entry in fs::read_dir(path)? {
                 let entry = entry?;
