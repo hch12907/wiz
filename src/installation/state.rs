@@ -1,6 +1,7 @@
 use std::path::{ Path, PathBuf };
 
 /// Enum for representing the state of the package.
+#[derive(Serialize, Deserialize)]
 pub enum PackageState {    
     /// This is the initial state of a package. 
     NotDownloaded {
