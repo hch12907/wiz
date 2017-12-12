@@ -7,6 +7,7 @@ use toml::de::Error as TomlDeserializeError;
 /// The error type for the program's every operations, such as TOML Parsing
 /// or IO-related errors. Wherever there's an error, it _should_ be wrapped
 /// into this type.
+#[derive(Debug)]
 pub enum PackageError {
     Download(String),
     Parsing(String),
