@@ -1,13 +1,13 @@
-use std::path::Path;
+use std::path::{ Path, PathBuf };
 
 /// Enum for representing the state of the package.
-pub enum PackageState<'a> {    
+pub enum PackageState {    
     /// This is the initial state of a package. 
     NotDownloaded {
         /// The path where the package is going to be located at.
-        location: &'a Path,
+        location: PathBuf,
         /// The URL of where the package is going to be downloaded from.
-        url: &'a str,
+        url: String,
     },
     
     /// The state is switched to Downloaded when the download of the
@@ -16,7 +16,7 @@ pub enum PackageState<'a> {
         /// Indicates whether the download process is interrupted.
         in_progress: bool,
         /// The path where the half-downloaded package is located at.
-        location: &'a Path,
+        location: PathBuf,
         /// The total file size of the package.
         file_size: u32,
     },
@@ -25,7 +25,7 @@ pub enum PackageState<'a> {
     /// after it's been downloaded.
     Unpacked {
         /// The path where the unpacked package is located at.
-        location: &'a Path,
+        location: PathBuf,
         /// The total file size of the package.
         file_size: u32,
     },
@@ -35,16 +35,19 @@ pub enum PackageState<'a> {
     /// and other finishing touches)
     Installed {
         /// The path where the package is located at.
-        location: &'a Path,
+        location: PathBuf,
         /// The total file size of the package.
         file_size: u32,
     },
 }
 
-impl<'a> PackageState<'a> {
+impl<'a> PackageState {
     /// Create a new PackageState.
     fn new(url: &'a str, location: &'a Path) -> Self {
-        PackageState::NotDownloaded { location, url }
+        PackageState::NotDownloaded { 
+            location: location.to_path_buf(), 
+            url: url.to_owned(),
+        }
     }
 
     /// A bool to determine whether the package is downloaded.
@@ -73,12 +76,12 @@ impl<'a> PackageState<'a> {
 
     /// Returns the path of where the package is (or is going to be) located
     /// at.
-    fn store_path(&self) -> &'a Path {
+    fn store_path(&self) -> &Path {
         match self {
-            &PackageState::NotDownloaded { location: path, .. } => path,
-            &PackageState::Downloaded { location: path, .. } => path,
-            &PackageState::Unpacked { location: path, .. } => path,
-            &PackageState::Installed { location: path, .. } => path,
+            &PackageState::NotDownloaded { location: ref path, .. } => path,
+            &PackageState::Downloaded { location: ref path, .. } => path,
+            &PackageState::Unpacked { location: ref path, .. } => path,
+            &PackageState::Installed { location: ref path, .. } => path,
         }
     }
 }
