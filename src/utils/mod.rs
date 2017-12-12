@@ -1,3 +1,5 @@
 pub mod download;
-pub mod hash;
+mod hash;
 pub mod unpack;
+
+pub use hash::Hash as Hash;
