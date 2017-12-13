@@ -7,6 +7,7 @@ use std::path::Path;
 use error::PackageError;
 
 /// This struct represents the hash result.
+#[derive(Deserialize, Serialize)]
 pub struct Hash(Box<[u8]>);
 
 impl Hash {
