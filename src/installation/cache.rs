@@ -1,4 +1,8 @@
 use utils::Hash;
 use installation::PackageState;
 
-struct PackageCache(Vec<(Hash, PackageState)>);
+pub struct Cache(Vec<(Hash, PackageState)>);
+
+impl Cache {
+
+}
