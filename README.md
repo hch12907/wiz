@@ -22,7 +22,7 @@ Source: <snip>
 -->
 
 ## Building Wiz
-If you have already installed [Rust (requires nightly!) and Cargo](https://www.rust-lang.org/en-US/install.html), then simply run these commands at any given directory:
+If you have already installed [Rust **nightly** and Cargo](https://www.rust-lang.org/en-US/install.html), then simply run these commands at any given directory (with permissions, of course) :
 ```
 git clone https://github.com/hch12907/wiz
 cd wiz
