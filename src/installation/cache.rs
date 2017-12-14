@@ -21,7 +21,7 @@ impl Cache {
     }
 
     pub fn write_to<P: AsRef<Path>>(&self, path: P) -> Result<(), PackageError> {
-        let file = File::open(path)?;
+        let file = File::create(path)?;
         let mut file = BufWriter::new(file);
         let content = toml_to_string(self)?;
         Ok(file.write_all(content.as_bytes())?)
