@@ -11,7 +11,7 @@ use utils::Hash;
 pub struct Cache(Vec<(Hash, PackageState)>);
 
 impl Cache {
-    fn read_from<P: AsRef<Path>>(path: P) -> Result<Cache, PackageError> {
+    pub fn read_from<P: AsRef<Path>>(path: P) -> Result<Cache, PackageError> {
         let file = File::open(path)?;
         let mut file = BufReader::new(file);
         let mut content = String::new();
@@ -20,7 +20,7 @@ impl Cache {
         Ok(content.try_into::<Self>()?)
     }
 
-    fn write_to<P: AsRef<Path>>(&self, path: P) -> Result<(), PackageError> {
+    pub fn write_to<P: AsRef<Path>>(&self, path: P) -> Result<(), PackageError> {
         let file = File::open(path)?;
         let mut file = BufWriter::new(file);
         let content = toml_to_string(self)?;
