@@ -3,6 +3,7 @@ use std::error::Error as StdError;
 use std::io;
 use std::string::FromUtf8Error;
 use toml::de::Error as TomlDeserializeError;
+use toml::ser::Error as TomlSerializeError;
 
 /// The error type for the program's every operations, such as TOML Parsing
 /// or IO-related errors. Wherever there's an error, it _should_ be wrapped
@@ -46,6 +47,16 @@ impl From<TomlDeserializeError> for PackageError {
                 err_location, 
                 err_description
             )
+        )
+    }
+}
+
+impl From<TomlSerializeError> for PackageError {
+    /// Converts a `toml::de:Error` into this type.
+    fn from(err: TomlSerializeError) -> Self {
+        PackageError::Parsing(
+            String::from("TOML serialize error:") +
+            err.description()
         )
     }
 }
