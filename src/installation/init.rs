@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use config::Config;
-use installation::PackageState;
+use installation::{ Cache, PackageState };
 
 /// Gets the config, fill it with default values, and return it.
 fn get_config<P: AsRef<Path>>(path: P) -> Config {
@@ -11,6 +11,6 @@ fn get_config<P: AsRef<Path>>(path: P) -> Config {
 }
 
 /// Gets the cached repositories.
-fn get_cache<P: AsRef<Path>>(path: P) {
-    
+fn get_cache<P: AsRef<Path>>(path: P) -> Cache {
+    Cache::read_from(path).unwrap()
 }
