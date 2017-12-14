@@ -12,7 +12,7 @@ pub struct Cache(Vec<(Hash, PackageState)>);
 
 impl Cache {
     fn read_from<P: AsRef<Path>>(path: P) -> Result<Cache, PackageError> {
-        let mut file = File::open(path)?;
+        let file = File::open(path)?;
         let mut file = BufReader::new(file);
         let mut content = String::new();
         file.read_to_string(&mut content);
@@ -21,7 +21,7 @@ impl Cache {
     }
 
     fn write_to<P: AsRef<Path>>(&self, path: P) -> Result<(), PackageError> {
-        let mut file = File::open(path)?;
+        let file = File::open(path)?;
         let mut file = BufWriter::new(file);
         let content = toml_to_string(self)?;
         Ok(file.write_all(content.as_bytes())?)
