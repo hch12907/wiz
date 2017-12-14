@@ -1,7 +1,7 @@
 use std::fs::File;
-use std::io::{ BufReader, Read };
+use std::io::{ BufReader, BufWriter, Read, Write };
 use std::path::Path;
-use toml::Value;
+use toml::{ to_string as toml_to_string, Value };
 
 use error::PackageError;
 use installation::PackageState;
@@ -18,5 +18,12 @@ impl Cache {
         file.read_to_string(&mut content);
         let content = content.trim().parse::<Value>()?;
         Ok(content.try_into::<Self>()?)
-    }   
+    }
+
+    fn write_to<P: AsRef<Path>>(&self, path: P) -> Result<(), PackageError> {
+        let mut file = File::open(path)?;
+        let mut file = BufWriter::new(file);
+        let content = toml_to_string(self)?;
+        Ok(file.write_all(content.as_bytes())?)
+    }
 }
