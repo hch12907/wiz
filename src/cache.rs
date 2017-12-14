@@ -4,7 +4,7 @@ use std::path::Path;
 use toml::{ to_string as toml_to_string, Value };
 
 use error::PackageError;
-use installation::PackageState;
+use package::PackageState;
 use utils::Hash;
 
 #[derive(Serialize, Deserialize)]

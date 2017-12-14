@@ -7,6 +7,7 @@ extern crate sha2;
 extern crate tar;
 extern crate toml;
 
+mod cache;
 mod config;
 mod error;
 mod installation;
@@ -17,6 +18,22 @@ mod utils;
 use std::path::Path;
 
 fn main() {
-    // We do config path here.
+    // Get the configs.
     let config = Path::new("~/.config/wiz");
+    let config = config::Config::
+        read_from(config)
+        .map(|x| x.fill_with_default())
+        .unwrap();
+
+    // Get the packages which are installed or are going to be installed.
+    let cache = Path::new("~/.config/wiz");
+    let cache = cache::Cache::
+        read_from(cache)
+        .unwrap();
+
+    // Get the repositories (package lists).
+    let repositories = Path::new("~/.config/wiz");
+    let repositories = repository::RepositoryList::
+        read_from(repositories)
+        .unwrap();
 }
