@@ -8,6 +8,7 @@ extern crate sha2;
 extern crate tar;
 extern crate toml;
 
+mod app;
 mod cache;
 mod config;
 mod error;
@@ -37,4 +38,12 @@ fn main() {
     let repositories = repository::RepositoryList::
         read_from(repositories)
         .unwrap();
+
+    println!("{}", app::run()
+        .subcommand_matches("install")
+        .map_or("no subcommands specified", |s|
+            s.value_of("package_name")
+                .unwrap_or("no arguments specified")
+        )    
+    );
 }
