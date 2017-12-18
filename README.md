@@ -1,5 +1,7 @@
 # Wiz
-[![Build Status](https://travis-ci.org/hch12907/wiz.svg?branch=rewrite)](https://travis-ci.org/hch12907/wiz)
+[![Build Status](https://travis-ci.org/hch12907/wiz.svg?)](https://travis-ci.org/hch12907/wiz)
+[![License](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](./README.md)
+
 
 > Wiz is a package installer/manager and launcher, written in pure Rust (with no bindings).
 
