@@ -5,9 +5,6 @@
 
 Wiz started out as a tool aiming to ease the installation of libraries and binaries.
 
-## Goals for the rewrite
-The old code contained a lot of hardcoding, and the whole thing was just too messy to be looked at. This rewrite tries to organize the code properly: minimizing the amount of hardcoding, to pave the road for future expansion of the program. More features of Rust should be utilized to achieve this, as the old code utilized only macros and structs.
-
 <!--
 ## Installation
 The Wiz project maintains multiple types of releases:
