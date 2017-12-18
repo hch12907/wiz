@@ -1,57 +1,86 @@
-use rustc_serialize::{ json, Encodable };
+use std::cmp::Ordering;
 
-use std::error::Error;
-use std::fs::File;
-use std::io::{ Read, Write };
-use std::path::Path;
-
-use package::pkg::{ Package, Version };
-
-///
-/// Parse the list from `path` and
-/// returns the parsed list.
-///
-pub fn get_list(path: &Path) -> Result<Vec<Package>, String> {
-    let mut buffer = String::new();
-    let mut file = get!(File::open(path), "An error occured while opening file");
-    
-    get!(file.read_to_string(&mut buffer), "An error occured while reading file");
-    return Ok(get!(json::decode(&buffer), "An error occured while decoding JSON"))
+/// A struct made for storing the version of the packages.
+/// 
+/// The format follows [semver 2.0](http://semver.org/), meaning that:
+/// 
+/// - versions with different `major` indicates that they are incompatible.
+/// - versions with different `minor` but same `major` are largely compatible.
+/// - versions with different `patch` but same `major` and `minor` are 
+///   compatible.
+/// 
+/// The `additional` field is an optional field for the package host to put
+/// text such as `alpha` or `stable`, it's not involved in the comparisons.
+#[derive(Serialize, Deserialize)]
+pub struct Version {
+    major: u32,
+    minor: u32,
+    patch: u32,
+    additional: Option<String>,
 }
 
-fn raw_update<T: Encodable>(object: &T, path: &Path) -> Result<(), String> {
-    let mut file = get!(File::open(path), "An error occured while opening file");
-    return match file.write(get!(json::encode(&object), "An error occured while encoding list").as_bytes()) {
-        Ok(_) => Ok(()),
-        Err(why) => Err(why.description().to_string())
+impl PartialEq for Version {
+    fn eq(&self, other: &Self) -> bool {
+        self == other
     }
 }
 
-///
-/// Updates the list. If the version in the list
-/// is older than the one in `package`, it will
-/// not be updated.
-///  
-pub fn update_list(package: &Package, path: &Path) -> Result<(), String> {
-    let mut list: Vec<Package> = get_list(path)?;
-    for x in 0..list.len() {
-        if &list[x].name == &package.name {
-            list[x].version = package.version.clone();
-            return raw_update(&list, path)
-        }
-    };
+impl Eq for Version {}
 
-    list.push(package.clone());
-    return raw_update(&list, path)
+impl PartialOrd for Version {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
-pub fn remove_from_list(package: &str, path: &Path) -> Result<(), String> {
-    let mut list: Vec<Package> = get_list(path)?;
-    for x in 0..list.len() {
-        if &list[x].name == &package {
-            list.remove(x);
+impl Ord for Version {
+    /// This compares one `Version` with another. It only compares the
+    /// three main parts of Version (`major`, `minor`, `patch`) and ignores
+    /// `additional` as it is meant to let the package host to put additional
+    /// messages such as `alpha`, `beta`.
+    /// 
+    /// This functions compares the two `Version`s *absolutely*, meaning that
+    /// it doesn't care about whether the two versions are breaking-changes or
+    /// not - it just compares.
+    fn cmp(&self, other: &Self) -> Ordering {
+        if self.major > other.major { Ordering::Greater } else
+        if self.major < other.major { Ordering::Less } 
+        else {
+            if self.minor > other.minor { Ordering::Greater } else
+            if self.minor < other.minor { Ordering::Less }
+            else {
+                if self.patch > other.patch { Ordering::Greater } else
+                if self.patch < other.patch { Ordering::Less } 
+                else { Ordering::Equal }
+            }
         }
     }
+}
 
-    return raw_update(&list, path)
+impl Version {
+    /// Returns the major version X (X.y.z).
+    pub fn major(&self) -> u32 {
+        self.major
+    }
+
+    /// Returns the minor version Y (x.Y.z).
+    pub fn minor(&self) -> u32 {
+        self.minor
+    }
+
+    /// Returns the patch version Z (x.y.Z).
+    pub fn patch(&self) -> u32 {
+        self.patch
+    }
+
+    /// Returns the additional message added by package host or its developers.
+    pub fn additional(&self) -> &Option<String> {
+        &self.additional
+    }
+
+    /// A helper function for checking whether the two versions contains
+    /// breaking changes. 
+    pub fn is_back_compatible(&self, other: &Self) -> bool {
+        self.major == other.major
+    }
 }

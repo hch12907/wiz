@@ -1,51 +1,49 @@
-#[macro_use]
+#![feature(from_utf8_error_as_bytes)]
+
 extern crate clap;
-extern crate crc;
 extern crate flate2;
 extern crate reqwest;
-extern crate rustc_serialize;
+#[macro_use] extern crate serde_derive;
+extern crate sha2;
 extern crate tar;
+extern crate toml;
 
-use clap::{ App, Arg, SubCommand };
-
-#[macro_use]
-mod macros;
-mod backend;
-mod frontend;
+mod app;
+mod cache;
+mod config;
+mod error;
+mod installation;
 mod package;
-mod paths;
+mod repository;
+mod utils;
+
+use std::path::Path;
 
 fn main() {
-    let possible_operation = [ "install", "remove", "update", "upgrade" ];
-    let arg_matches = App::new("wiz")
-        .version("0.1.0")
-                          
-        .subcommand(SubCommand::with_name("operation")
-            .about("Specify what to do with the packages")
-            .arg(Arg::with_name("package")
-                .help("The specified package")
-                .index(1)
-                .required(true)))
-        
-        .get_matches();
+    // Get the configs.
+    let config = Path::new("~/.config/wiz");
+    let config = config::Config::
+        read_from(config)
+        .map(|x| x.fill_with_default())
+        .unwrap();
 
-    /*let method = value_t!(arg_matches.value_of("method"), Method).unwrap();
-    let package = arg_matches.value_of("package").unwrap_or("invalid");
+    // Get the packages which are installed or are going to be installed.
+    let cache = Path::new("~/.config/wiz");
+    let cache = cache::Cache::
+        read_from(cache)
+        .unwrap();
 
-    match method {
-        Method::Install => { 
-            println!("Installing package: {}", package);
-            match package::installation::install_package(package, Path::new("wiz")) {
-                Ok(_) => println!("Install complete"),
-                Err(why) => println!("Install failed.\nReason: {}", why)
-            }
-        },
-        Method::Remove => { 
-            println!("Uninstalling package: {}", package);
-            match package::uninstallation::uninstall(package, Path::new("wiz")) {
-                Ok(_) => println!("Uninstall complete"),
-                Err(why) => println!("Uninstall failed.\nReason: {}", why)
-            }
-        }
-    }*/
+    // Get the repositories (package lists).
+    let repositories = Path::new("~/.config/wiz");
+    let repositories = repository::RepositoryList::
+        read_from(repositories)
+        .unwrap();
+
+    println!("{}", app::run()
+        .subcommand_matches("install")
+        .map_or("no subcommands specified", |s|
+            s.value_of("package_name")
+                .unwrap_or("no arguments specified")
+        )    
+    );
 }
