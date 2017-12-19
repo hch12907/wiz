@@ -28,3 +28,9 @@ impl RepositoryList {
         Ok(file.write_all(content.as_bytes())?)
     }
 }
+
+impl Default for RepositoryList {
+    fn default() -> Self {
+        RepositoryList(Vec::new())
+    }
+}

@@ -27,3 +27,9 @@ impl Cache {
         Ok(file.write_all(content.as_bytes())?)
     }
 }
+
+impl Default for Cache {
+    fn default() -> Self {
+        Cache(Vec::new())
+    }
+}

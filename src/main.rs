@@ -25,25 +25,37 @@ fn main() {
     let config = config::Config::
         read_from(config)
         .map(|x| x.fill_with_default())
-        .unwrap();
+        .unwrap_or(config::Config::default());
 
     // Get the packages which are installed or are going to be installed.
     let cache = Path::new("~/.config/wiz");
     let cache = cache::Cache::
         read_from(cache)
-        .unwrap();
+        .unwrap_or(cache::Cache::default());
 
     // Get the repositories (package lists).
     let repositories = Path::new("~/.config/wiz");
     let repositories = repository::RepositoryList::
         read_from(repositories)
-        .unwrap();
+        .unwrap_or(repository::RepositoryList::default());
 
-    println!("{}", app::run()
-        .subcommand_matches("install")
-        .map_or("no subcommands specified", |s|
-            s.value_of("package_name")
+    let args = app::run();
+
+    match args.subcommand_matches("install") {
+        Some(arg) => { 
+            println!("{}", arg 
+                .value_of("package_name")
                 .unwrap_or("no arguments specified")
-        )    
-    );
+            );
+
+            println!("is forced: {}", arg
+                .is_present("force")
+                .to_string()
+            );
+        },
+
+        None => {
+            println!("no subcommands specified")
+        }
+    };
 }
