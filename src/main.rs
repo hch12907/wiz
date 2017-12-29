@@ -17,6 +17,12 @@ mod package;
 mod repository;
 mod utils;
 
+pub type Essentials<'a> = (
+    &'a config::Config, 
+    &'a cache::Cache, 
+    &'a repository::RepositoryList
+);
+
 use std::path::Path;
 
 fn main() {
@@ -43,14 +49,11 @@ fn main() {
 
     match args.subcommand_matches("install") {
         Some(arg) => { 
-            println!("{}", arg 
-                .value_of("package_name")
-                .unwrap_or("no arguments specified")
-            );
+            installation::install_package(
+                arg.value_of("package_name").unwrap_or_default(),
+                arg.is_present("force"),
 
-            println!("is forced: {}", arg
-                .is_present("force")
-                .to_string()
+                (&config, &cache, &repositories)
             );
         },
 

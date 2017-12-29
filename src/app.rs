@@ -12,6 +12,7 @@ pub fn run<'a>() -> ArgMatches<'a> {
                     Arg::with_name("package_name")
                     .help("Specifies package to install")
                 )
+
                 .arg(
                     Arg::with_name("force")
                     .short("f")
