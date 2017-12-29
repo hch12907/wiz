@@ -8,7 +8,7 @@ use error::PackageError;
 use repository::RepositoryUrls;
 
 /// Represents the config file.
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Config {
     pub buffer_size: Option<u64>,
     // pub config_path: Option<String>,

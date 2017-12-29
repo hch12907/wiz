@@ -11,7 +11,7 @@ use std::cmp::Ordering;
 /// 
 /// The `additional` field is an optional field for the package host to put
 /// text such as `alpha` or `stable`, it's not involved in the comparisons.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Version {
     major: u32,
     minor: u32,

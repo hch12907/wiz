@@ -4,7 +4,7 @@ use package::Version;
 use package::PackageType;
 
 /// A struct for storing package informations, such as its name and version.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Package {
     name: String,
     hash: u32,

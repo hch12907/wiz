@@ -1,7 +1,7 @@
 use package::Package;
 
 /// The struct which represents the repos.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Repository {
     url: String,
     packages: Vec<Package>,

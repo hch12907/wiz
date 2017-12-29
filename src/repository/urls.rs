@@ -8,7 +8,7 @@ use error::PackageError;
 use repository::{ Repository, RepositoryList };
 
 /// Struct which represents a list of Repositories.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RepositoryUrlList(pub Vec<String>);
 
 impl RepositoryUrlList {

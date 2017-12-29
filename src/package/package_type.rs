@@ -1,5 +1,5 @@
 /// An enum for the package types.
-#[derive(Serialize,Deserialize)]
+#[derive(Debug, Serialize,Deserialize)]
 pub enum PackageType {
     /// Stands for binary
     Bin,
