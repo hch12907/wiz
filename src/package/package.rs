@@ -1,5 +1,3 @@
-use std::cmp::Ordering;
-
 use package::Version;
 use package::PackageType;
 
