@@ -47,18 +47,24 @@ fn main() {
 
     let args = app::run();
 
-    match args.subcommand_matches("install") {
+    let result = (|| match args.subcommand_matches("install") {
         Some(arg) => { 
             installation::install_package(
                 arg.value_of("package_name").unwrap_or_default(),
                 arg.is_present("force"),
 
                 (&config, &cache, &repositories)
-            );
+            )
         },
 
         None => {
-            println!("no subcommands specified")
+            println!("no subcommands specified");
+            Ok(())
         }
+    })();
+
+    match result {
+        Ok(_) => (),
+        Err(why) => println!("{}", why),
     };
 }
