@@ -1,5 +1,6 @@
 use reqwest;
 use std::error::Error as StdError;
+use std::fmt;
 use std::io;
 use std::string::FromUtf8Error;
 use toml::de::Error as TomlDeserializeError;
@@ -14,6 +15,18 @@ pub enum PackageError {
     Parsing(String),
     Utf8(String),
     IO(String),
+}
+
+impl fmt::Display for PackageError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        use self::PackageError::*;
+        match self {
+            &Download(ref why) => write!(f, "An error occured during download: {}", why),
+            &Parsing(ref why) => write!(f, "An error occured during TOML parsing: {}", why),
+            &Utf8(ref why) => write!(f, "An error occured during UTF8 parsing: {}", why),
+            &IO(ref why) => write!(f, "An error occured during an IO operation: {}", why),
+        }
+    }
 }
 
 impl From<io::Error> for PackageError {
