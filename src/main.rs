@@ -17,12 +17,6 @@ mod package;
 mod repository;
 mod utils;
 
-pub type Essentials<'a> = (
-    &'a config::Config, 
-    &'a cache::Cache, 
-    &'a repository::RepositoryList
-);
-
 use std::path::Path;
 
 fn main() {
@@ -45,6 +39,12 @@ fn main() {
         read_from(repositories)
         .unwrap_or(repository::RepositoryList::default());
 
+    let essentials = installation::Essentials {
+        config,
+        cache,
+        repositories,
+    };
+
     let args = app::run();
 
     let result = (|| match args.subcommand_matches("install") {
@@ -53,7 +53,8 @@ fn main() {
                 arg.value_of("package_name").unwrap_or_default(),
                 arg.is_present("force"),
 
-                (&config, &cache, &repositories)
+                essentials
+                
             )
         },
 
